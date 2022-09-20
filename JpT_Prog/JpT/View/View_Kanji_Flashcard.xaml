@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="JpT.View_Kanji_Flashcard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             xmlns:local="clr-namespace:JpT"
+             mc:Ignorable="d" 
+             Background="Aquamarine">
+   <UserControl.Resources>
+      <Style TargetType="{x:Type Label}">
+         <Setter Property="FontSize" Value="16" />
+         <Setter Property="VerticalAlignment" Value="Center"/>
+      </Style>
+      <Style TargetType="{x:Type CheckBox}">
+         <Setter Property="Foreground" Value="Black"/>
+         <Setter Property="VerticalAlignment" Value="Center"/>
+         <Setter Property="HorizontalAlignment" Value="Center"/>
+         <Setter Property="Content" Value="Chính xác"/>
+         <Setter Property="IsEnabled" Value="{Binding IsEnableStatus}"/>
+      </Style>
+      <Style TargetType="{x:Type TextBlock}">
+         <Setter Property="FontSize" Value="16" />
+         <Setter Property="VerticalAlignment" Value="Center"/>
+         <Setter Property="TextWrapping" Value="Wrap"/>
+         <Setter Property="Foreground" Value="Black"/>
+      </Style>
+      <Style TargetType="{x:Type TextBox}">
+         <Setter Property="FontSize" Value="40" />
+         <Setter Property="VerticalAlignment" Value="Center"/>
+         <Setter Property="TextAlignment" Value="Center"/>
+         <Setter Property="Foreground" Value="Black"/>
+         <Setter Property="TextWrapping" Value="Wrap"/>
+         <Setter Property="MaxLength" Value="38"/>
+         <Setter Property="BorderThickness" Value="0"/>
+         <Setter Property="Background" Value="Transparent"/>
+         <Setter Property="IsReadOnly" Value="True"/>
+      </Style>
+   </UserControl.Resources>
+   <Grid Background="AliceBlue">
+      <TabControl  Width="540" Height="640" Name="tabControl" Background="AliceBlue" SelectionChanged="TabControl_SelectionChanged">
+         <TabItem Header="_Kanji" Width="268" Name="tabKanji">
+         </TabItem>
+         <TabItem Header="_Kotoba" Width="268" Name="tabKotoba">
+         </TabItem>
+      </TabControl>
+
+      <Grid Height="615" Margin="0 25 0 0" VerticalAlignment="Top">
+         <StackPanel Name="tabSelectLesson" Visibility="Hidden">
+            <StackPanel Orientation="Horizontal" Margin="10">
+               <TextBox Margin="20 0 10 0" Text="{Binding ContentSelected}" Height="74" Width="345" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" BorderThickness="1" FontSize="14" TextAlignment="Left"/>
+               <StackPanel>
+                  <Button Content="Update Html" Width="120" Height="32" Margin="5" Click="Btn_UpdateHtml_Click"/>
+                  <Button Content="View All" Width="120" Height="32" Margin="5" Click="startBtnShowAll"/>
+               </StackPanel>
+            </StackPanel>
+            <DataGrid Name="dgvLesson" ScrollViewer.VerticalScrollBarVisibility="Visible" CanUserAddRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit ="FullRow" Background="AliceBlue"  ItemsSource="{Binding LessonList}" Height="450" Width="480" BorderThickness="1">
+               <DataGrid.Columns>
+                  <DataGridTemplateColumn Width="*">
+                     <DataGridTemplateColumn.Header>
+                        <TextBlock Text="Selected" MouseDown="UnSelectClick"></TextBlock>
+                     </DataGridTemplateColumn.Header>
+                     <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                           <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding LessonName}" HorizontalAlignment="Left" Checked="cbxSelectChange" Unchecked="cbxSelectChange"/>
+                        </DataTemplate>
+                     </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+                  <DataGridTextColumn IsReadOnly="True" Binding="{Binding LastLearning}" Width="120">
+                     <DataGridTextColumn.Header>
+                        <TextBlock Text="History"></TextBlock>
+                     </DataGridTextColumn.Header>
+                  </DataGridTextColumn>
+               </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+               <Button Content="Advanced Learning" Width="160" Height="32" Margin="20 15" Click="startBtnLearningHard"/>
+               <Button Content="Normal Learning" Width="160" Height="32" Margin="10" Click="startBtnClick"/>
+            </StackPanel>
+         </StackPanel>
+         <StackPanel Name="tabFlashCard" Visibility="Hidden">
+            <StackPanel Margin="20 30 20 10" Height="480" Background="WhiteSmoke" KeyUp="checkkeydown">
+               <Grid  Margin="20">
+                  <TextBox Text="{Binding Lesson}" FontSize="20" TextAlignment="Center" HorizontalAlignment="Left"/>
+                  <CheckBox Content="Repeat" HorizontalAlignment="Right" IsChecked="{Binding IsRepeat}" FontSize="20" VerticalContentAlignment="Center" Checked="cbxRepeatChange" Unchecked="cbxRepeatChange" Margin="0,0,0,1" VerticalAlignment="Bottom"/>
+               </Grid>
+               <TextBox Text="{Binding Kanji}" Name="tbxKanji" FontSize="78" Margin="10 30 10 0"/>
+               <TextBox Margin="5 -35 5 5" Text="{Binding Kotoba}" Name="tbxKotoba" Width="auto"/>
+               <TextBox Margin="5" Text="{Binding HanViet}" Width="auto" Name="tbxHanviet"/>
+               <TextBox Margin="5" Text="{Binding Hiragana}" Width="auto"/>
+               <TextBox Margin="5" Text="{Binding Meaning}" Width="auto"/>
+            </StackPanel>
+            <ProgressBar Name="processbar" Minimum="0" Height="10" Margin="20 0 20 10"/>
+            <Label HorizontalAlignment="Center" FontSize="14" Content="Bấm phím → / ← để di chuyển giữa các từ, R để thay đổi trạng thái repeat,"/>
+            <Label HorizontalAlignment="Center" FontSize="14" Content="Esc để trở về giao diện Menu"/>
+         </StackPanel>
+         <StackPanel Name="tabShowAll"  Visibility="Visible">
+            <DataGrid ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          CanUserAddRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False"
+                          CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False"
+                          SelectionMode="Single" SelectionUnit ="FullRow" Background="AliceBlue"
+                          ItemsSource="{Binding KanjiList}" Height="535" Width="510" BorderThickness="1" FontSize="18" Margin="0 15 0 0" >
+               <DataGrid.Columns>
+                  <DataGridTextColumn Header="Kanji" IsReadOnly="True" Binding="{Binding Kanji}" Width="4*"/>
+                  <DataGridTextColumn Header="Hiragana" IsReadOnly="True" Binding="{Binding Hiragana}" Width="5*"/>
+                  <DataGridTextColumn Header="Meaning" IsReadOnly="True" Binding="{Binding Meaning}" Width="10*"/>
+                  <DataGridCheckBoxColumn Header="Hard" Binding="{Binding IsHard}" Width="54"/>
+                  <DataGridCheckBoxColumn Header="Lock" Binding="{Binding IsLock}" Width="54"/>
+               </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+               <Button Content="_Save" Width="140" Click="startBtnBackToMenu" Name="btnBackMenu" Height="36" Margin="15"/>
+               <Button Content="_Back" Width="140" Click="TabControl_SelectionChanged" Height="36" Margin="15"/>
+            </StackPanel>
+            
+         </StackPanel>
+         <Grid Name="tabUpdateHtml" Visibility="Hidden">
+            <Grid Background="Black" Opacity="0.5"/>
+            <Border BorderBrush="Transparent" BorderThickness="1,1,1,1" Height="220" Width="360" CornerRadius="10,10,10,10" Background="AliceBlue">
+               <Grid>
+                  <StackPanel Margin="10 12 10 10">
+                     <Label Content="Update dữ liệu cho web:" HorizontalAlignment="Center" FontSize="18" FontWeight="DemiBold"/>
+                     <TextBox Text="https://vutuan116.github.io/jp" FontSize="18" Foreground="Brown" Margin="0 -5 0 0"/>
+                     <Line Stroke="DarkGray" X1="0" X2="340" Y1="0" Y2="0" StrokeThickness="4" Margin="0 12 0 0"/>
+                     <StackPanel Orientation="Horizontal" Margin="10 20 10 20">
+                        <Label Content="Folder:"  FontSize="16" Margin="10 0 5 0"/>
+                        <TextBox Width="240" Height="32" Text="D:\Github\jp\JpT_Web" FontSize="16" TextAlignment="Left" VerticalContentAlignment="Center" BorderThickness="1" Padding="2" Name="txt_Folder"/>
+                     </StackPanel>
+                     <Button Content="Thực hiện" FontSize="16" Width="140" Click="Btn_Run_Update_Html_Click"/>
+                     <Line Stroke="DarkGray" X1="0" X2="340" Y1="0" Y2="0" StrokeThickness="4" Margin="0 16 0 0"/>
+                  </StackPanel>
+               </Grid>
+            </Border>
+         </Grid>
+      </Grid>
+   </Grid>
+</UserControl>                                          

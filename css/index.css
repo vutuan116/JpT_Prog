@@ -1,0 +1,14 @@
+@media only screen and (max-width: 992px) {
+    .div_index {
+        height: 34vh!important;
+    }
+}
+
+.cursor_pointer{
+    cursor: pointer;
+}
+
+.lesson_div{
+    overflow: auto; 
+    height: 50vh;
+}
