@@ -168,7 +168,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resource\WpfAnimatedGif.dll" />
-    <Resource Include="Image\loading.gif" />
     <Content Include="Resource\EPPlus.dll" />
     <Content Include="Resource\MaterialDesignColors.dll" />
     <Content Include="Resource\MaterialDesignThemes.Wpf.dll" />
