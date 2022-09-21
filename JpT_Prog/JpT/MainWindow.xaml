@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JpT"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d" Foreground="White" ResizeMode="CanMinimize" Title="Hi, I'm Tuấn!" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" Width="555" Height="680">
+        mc:Ignorable="d" Foreground="White" ResizeMode="CanMinimize" Title="Hi, I'm Tuấn!" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" Width="720" Height="620" Closing="OnClosing">
     <Grid Name="GridChildren">
     </Grid>
 </Window>

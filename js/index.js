@@ -4,11 +4,11 @@ var kanjiJson = [];
 
 $(document).ready(function () {
     tuVung.forEach(item => {
-        tuVungJson.push(JSON.parse(item));
+        tuVungJson.push(item);
     });
 
     kanji.forEach(item => {
-        kanjiJson.push(JSON.parse(item));
+        kanjiJson.push(item);
     });
 
     setting();

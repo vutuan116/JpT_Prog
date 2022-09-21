@@ -27,12 +27,14 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Build\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>none</ErrorReport>
-    <WarningLevel>1</WarningLevel>
+    <WarningLevel>3</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Image\icon.ico</ApplicationIcon>
@@ -56,6 +58,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,26 +81,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DAO\CommonDAO.cs" />
-    <Compile Include="Entity\KanjiEntity.cs" />
-    <Compile Include="Entity\KotobaEntity.cs" />
-    <Compile Include="Logic\MainScreenLogic.cs" />
-    <Compile Include="Logic\ViewKanjiAgainLogic.cs" />
-    <Compile Include="Logic\ViewKanjiFlashcard.cs" />
-    <Compile Include="Logic\ViewKotobaAgainLogic.cs" />
-    <Compile Include="Logic\ViewKanjiNewLogic.cs" />
-    <Compile Include="Logic\ViewKotobaNewLogic.cs" />
-    <Compile Include="Logic\LearningAgain.cs" />
+    <Compile Include="DAO\WordDAO.cs" />
+    <Compile Include="Entity\ConfigEntity.cs" />
+    <Compile Include="Entity\WordEntity.cs" />
+    <Compile Include="Logic\Constant.cs" />
+    <Compile Include="Logic\ViewFlashcardLogic.cs" />
     <Compile Include="Model\BaseModel.cs" />
-    <Compile Include="Model\KanjiModel.cs" />
-    <Compile Include="Model\KotobaModel.cs" />
+    <Compile Include="Model\WordModel.cs" />
     <Compile Include="Model\LessonModel.cs" />
     <Compile Include="Model\MainModel.cs" />
-    <Compile Include="Model\ViewKanjiAgainModel.cs" />
-    <Compile Include="Model\ViewKanjiFlashcardModel.cs" />
-    <Compile Include="Model\ViewKotobaAgainModel.cs" />
-    <Compile Include="Model\ViewKanjiNewModel.cs" />
-    <Compile Include="Model\ViewKotobaNewModel.cs" />
+    <Compile Include="Model\ViewFlashcardModel.cs" />
     <Compile Include="Resource\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -105,11 +98,10 @@
     </Compile>
     <Compile Include="Utilities\TabName.cs" />
     <Compile Include="Utilities\Notification.cs" />
-    <Compile Include="View\View_Kanji_Flashcard.xaml.cs">
-      <DependentUpon>View_Kanji_Flashcard.xaml</DependentUpon>
+    <Compile Include="View\View_Flashcard.xaml.cs">
+      <DependentUpon>View_Flashcard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\CommonUtils.cs" />
-    <Compile Include="Utilities\Constant.cs" />
     <Compile Include="Utilities\CsvUtils.cs" />
     <Compile Include="Utilities\ExcelUtils.cs" />
     <Page Include="MainWindow.xaml">
@@ -124,7 +116,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\View_Kanji_Flashcard.xaml">
+    <Page Include="View\View_Flashcard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -154,7 +146,6 @@
     <None Include="Data\Data.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\Data_Resource.xlsx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -168,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resource\WpfAnimatedGif.dll" />
+    <Resource Include="Image\loading.gif" />
     <Content Include="Resource\EPPlus.dll" />
     <Content Include="Resource\MaterialDesignColors.dll" />
     <Content Include="Resource\MaterialDesignThemes.Wpf.dll" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JpT.Logic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -26,18 +27,30 @@ namespace JpT.Utilities
                         break;
                     }
                 }
-                object value = "";
+                object value;
                 if (propMatching != null)
                 {
-                    if (prop.PropertyType.Name == "Boolean")
+                    if (prop.PropertyType.Name == "DateTime")
                     {
-                        value = propMatching.GetValue(objectSource, null) == null ? "False" : propMatching.GetValue(objectSource, null);
+                        string tempValue = propMatching.GetValue(objectSource, null).ToString();
+                        DateTime temp = DateTime.MinValue;
+                        DateTime.TryParse(tempValue, out temp);
+                        if (temp != DateTime.MinValue)
+                        {
+                            prop.SetValue(item, temp, null);
+                        }
+                    }
+                    else if (prop.PropertyType.Name == "Boolean")
+                    {
+                        string tempValue = propMatching.GetValue(objectSource, null).ToString();
+                        value = string.IsNullOrEmpty(tempValue) || tempValue.ToUpper().Equals("FALSE") ? false : true;
+                        prop.SetValue(item, value, null);
                     }
                     else
                     {
                         value = propMatching.GetValue(objectSource, null);
+                        prop.SetValue(item, Convert.ChangeType(value, prop.PropertyType), null);
                     }
-                    prop.SetValue(item, Convert.ChangeType(value, prop.PropertyType), null);
                 }
             }
             return item;
@@ -67,6 +80,42 @@ namespace JpT.Utilities
                 }
             }
             return item;
+        }
+    
+        public static LevelEnum ConvertLevelEnum(string levelStr)
+        {
+            LevelEnum result = LevelEnum.N5;
+            switch (levelStr)
+            {
+                case "4":
+                    result = LevelEnum.N1;
+                    break;
+                case "N1":
+                    result = LevelEnum.N1;
+                    break;
+
+                case "3":
+                    result = LevelEnum.N2;
+                    break;
+                case "N2":
+                    result = LevelEnum.N2;
+                    break;
+
+                case "2":
+                    result = LevelEnum.N3;
+                    break;
+                case "N3":
+                    result = LevelEnum.N3;
+                    break;
+
+                case "1":
+                    result = LevelEnum.N4;
+                    break;
+                case "N4":
+                    result = LevelEnum.N4;
+                    break;
+            }
+            return result;
         }
     }
 }
