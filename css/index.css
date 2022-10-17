@@ -1,14 +1,61 @@
 @media only screen and (max-width: 992px) {
     .div_index {
-        height: 34vh!important;
+        height: 34vh !important;
     }
 }
 
-.cursor_pointer{
+.cursor_pointer {
     cursor: pointer;
 }
 
-.lesson_div{
-    overflow: auto; 
+.lesson_div {
+    overflow: auto;
     height: 50vh;
+}
+
+.fw-bold {
+    font-weight: bold;
+}
+
+ruby {
+    display: inline-flex;
+    flex-direction: column-reverse;
+}
+
+rb,
+rt {
+    display: inline;
+    line-height: 0.75;
+    font-size: 90%;
+    color: red;
+}
+
+.td_7_20{
+    width: 35%;
+}
+
+.td_btn_repeat{
+    font-weight: normal;
+    font-size: 18px;
+    text-align: center;
+    width: 60px;
+}
+
+#tbl_body_list_wordbook{
+    font-size: 28px;
+    vertical-align: middle;
+}
+
+.hide{
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .td_7_20{
+        width: 50%;;
+    }
+
+    #tbl_body_list_wordbook{
+        font-size: 20px;
+    }
 }
