@@ -22,7 +22,7 @@
                 <h1 class="h4 mb-4" style="font-size: 32px">JwT Home</h1>
             </div>
         </div>
-        <div id="menu_div">
+        <div class="div_main menu">
             <div class="row justify-content-md-center p-3">
                 <div class="col-lg-6">
                     <div class="mt-4">
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <div id="test_div" style="display: none">
+        <div class="div_main test_wb">
             <div class="row justify-content-md-center">
                 <table class="table table-bordered  table-striped" cellspacing="0" width="100%">
                     <thead class="bg-dark text-white">
@@ -88,33 +88,20 @@
                         </tr>
                     </thead>
                     <tbody id="tbl_body_list_wordbook">
-                        <tr id="word_1">
-                            <td>
-                                <ruby>はじめて
-                                    <rt>初めて</rt>
-                                </ruby>
-                                <br>
-                                <input class="w-100">
-                            </td>
-                            <td>
-                                <input class="w-100"><br>
-                                <span>lần đầu tiên</span>
-                            </td>
-                            <td class="td_btn_repeat hide">
-                                <input class="cursor_pointer" type="checkbox" id="word_repeat_1">
-                                <label class="cursor_pointer" for="word_repeat_1"><i class="fa-solid fa-repeat"></i></label>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
                 <div class="col-lg-3 mb-4">
-                    <button type="button" class="btn btn-primary btn-sm w-100 fw-bold" onclick="">Check</button>
+                    <button type="button" class="btn wb_btn checkWb btn-primary btn-sm w-100 fw-bold" onclick="checkWordbook()">Check Wordbook</button>
+                    <button type="button" class="btn wb_btn againCheckWb btn-primary btn-sm fw-bold w-100 hide" onclick="againTestWb()">Continues</button>
                 </div>
             </div>
         </div>
     </div>
 
     </div>
+    <button class="btn btn-success btn_ontop opacity-50" onclick="goTop()" >
+        T
+    </button>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.js"></script>

@@ -1,6 +1,7 @@
 var levelJson = [];
 var tuVungJson = [];
 var kanjiJson = [];
+var listWordbook = [];
 
 $(document).ready(function () {
     tuVung.forEach(item => {
@@ -15,7 +16,8 @@ $(document).ready(function () {
     viewListLevel();
     viewListLesson($("#level_select").val());
 
-    $('#wb_lesson_12').attr('checked', 'checked');
+    goHome();
+    // $('#wb_lesson_12').attr('checked', 'checked');
     // start();
 });
 
@@ -44,7 +46,7 @@ function viewListLesson(level) {
             $("#wordbook_lesson_div").append(
                 `<div>
                     <input class="cursor_pointer" type="checkbox" value="${x.Lesson}" id="wb_lesson_${indexWb}">
-                    <label class="cursor_pointer" for="wb_lesson_'${indexWb}">&nbsp;${x.Lesson}</label>
+                    <label class="cursor_pointer" for="wb_lesson_${indexWb}">&nbsp;${x.Lesson}</label>
                 </div>`);
         }
     });
@@ -65,60 +67,70 @@ function viewListLesson(level) {
 function start() {
     let listLesson = $("input[type=checkbox]:checked");
     let level = $("#level_select").val();
-
-    $("html").scrollTop(0);
-
-    let listWordbook = [];
+    goTop();
     if (!listLesson || listLesson.length == 0) {
         alert("Hãy chọn ít nhất 1 bài học");
         return;
     }
+    var i=0;
     listLesson.each(x => {
         lesson = listLesson[x];
         tuVungJson.filter(y => y.Level == level && y.Lesson == lesson.value).forEach(z => {
             listWordbook = listWordbook.concat(z.Data);
+            listWordbook[listWordbook.length-1].Id = i;
+            i++;
         });
     });
 
     listWordbook = derangeArray(listWordbook);
-    viewListWordbook(listWordbook);
+    viewListWordbook();
 
-    $("#menu_div").hide();
-    $("#test_div").show();
+    $(".div_main").addClass("hide");
+    $(".test_wb").removeClass("hide");
 }
 
-function viewListWordbook(listWb, type) {
+function viewListWordbook(type) {
     var html = "";
     if (type == null) {
-        var index = 0;
-        listWb.forEach(x => {
-            var isMod = getRandomInt(0, 100) % 2 == 0;
-            var hiraShow = 'hide';
-            var meanShow = '';
-            if (isMod) {
-                var hiraShow = '';
-                var meanShow = 'hide';
-            }
-
-            html = html +
-                `<tr id="word_${index}">
+        var id = 0;
+        listWordbook.forEach(x => {
+            var isShowHira = getRandomInt(0, 100) % 2 == 0;
+            if (isShowHira){
+                html = html +
+                `<tr>
                     <td>
-                        <ruby class="${meanShow}">${x.Hira}
+                        <ruby>${x.Hira}
                             <rt>${x.Kanji}</rt>
                         </ruby>
-                        <input class="w-100 ${hiraShow}">
                     </td>
                     <td>
-                        <input class="${meanShow}">
-                        <span class="${hiraShow}">${x.Mean}</span>
+                        <input class="w-100">
+                        <span class="wb hide">${x.Mean}</span>
                     </td>
-                    <td class="td_btn_repeat hide">
-                        <input class="cursor_pointer" type="checkbox" id="word_repeat_${index}">
-                        <label class="cursor_pointer" for="word_repeat_${index}"><i class="fa-solid fa-repeat"></i></label>
+                    <td class="td_btn_repeat wb hide">
+                        <input class="cursor_pointer word_repeat" type="checkbox" id="word_repeat_${id}">
+                        <label class="cursor_pointer" for="word_repeat_${id}"><i class="fa-solid fa-repeat"></i></label>
                     </td>
                 </tr>`;
-
-            index++;
+            }else{
+                html = html +
+                `<tr">
+                    <td>
+                        <ruby class="wb hide">${x.Hira}
+                            <rt>${x.Kanji}</rt>
+                        </ruby>
+                        <input class="w-100">
+                    </td>
+                    <td>
+                        <span>${x.Mean}</span>
+                    </td>
+                    <td class="td_btn_repeat wb hide">
+                        <input class="cursor_pointer word_repeat" type="checkbox" id="word_repeat_${id}">
+                        <label class="cursor_pointer" for="word_repeat_${id}"><i class="fa-solid fa-repeat"></i></label>
+                    </td>
+                </tr>`;
+            }
+            id++;
         })
     }
 
@@ -145,4 +157,41 @@ function derangeArray(listItem) {
 
     console.log(result);
     return result;
+}
+
+function checkWordbook(){
+    $(".wb.hide").removeClass("hide");
+    $(".wb_btn.checkWb").addClass("hide");
+    $(".wb_btn.againCheckWb").removeClass("hide");
+    goTop();
+}
+
+function againTestWb(){
+    var listWbChecked = $(".word_repeat:checked");
+
+    if (!listWbChecked || listWbChecked.length == 0) {
+        goHome();
+    }
+
+    var listWbRepeat = [];
+    listWbChecked.each(x=>{
+        let id = listWbChecked[x].id.replace("word_repeat_","");
+        listWbRepeat.push(listWordbook[Number(id)]);
+    });
+
+    listWordbook = listWbRepeat;
+    viewListWordbook();
+
+    $(".wb_btn.checkWb").removeClass("hide");
+    $(".wb_btn.againCheckWb").addClass("hide");
+    goTop();
+}
+
+function goTop(){
+    $("html").scrollTop(0);
+}
+
+function goHome(){
+    $(".div_main").addClass("hide");
+    $(".menu").removeClass("hide");
 }

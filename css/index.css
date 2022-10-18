@@ -50,6 +50,13 @@ rt {
     display: none;
 }
 
+.btn_ontop{
+    position: fixed;
+    bottom: 10px!important;
+    right: 10px!important;
+    z-index: 10000;
+}
+
 @media only screen and (max-width: 768px) {
     .td_7_20{
         width: 50%;;
@@ -59,3 +66,4 @@ rt {
         font-size: 20px;
     }
 }
+
