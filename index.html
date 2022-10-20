@@ -38,7 +38,10 @@
                     </div>
                     <div class="text-center mt-1 mb-4">
                         <select class="form-control" id="type_select">
-                            <option>Test</option>
+                            <option value="test">Test</option>
+                            <option value="view">View</option>
+                            <option value="hideWord">Hidden Word</option>
+                            <option value="hideMean">Hidden Mean</option>
                         </select>
                     </div>
                 </div>
@@ -91,15 +94,17 @@
                     </tbody>
                 </table>
                 <div class="col-lg-3 mb-4">
-                    <button type="button" class="btn wb_btn checkWb btn-primary btn-sm w-100 fw-bold" onclick="checkWordbook()">Check Wordbook</button>
-                    <button type="button" class="btn wb_btn againCheckWb btn-primary btn-sm fw-bold w-100 hide" onclick="againTestWb()">Continues</button>
+                    <button type="button" class="btn wb_btn checkWb btn-primary btn-sm w-100 fw-bold"
+                        onclick="checkWordbook()">Check Wordbook</button>
+                    <button type="button" class="btn wb_btn againCheckWb btn-primary btn-sm fw-bold w-100 hide"
+                        onclick="againTestWb()">Continues</button>
                 </div>
             </div>
         </div>
     </div>
 
     </div>
-    <button class="btn btn-success btn_ontop opacity-50" onclick="goTop()" >
+    <button class="btn btn-success btn_ontop opacity-50" onclick="goTop()">
         T
     </button>
     <script src="js/jquery.min.js"></script>
