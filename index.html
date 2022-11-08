@@ -18,31 +18,46 @@
 <body class="">
     <div class="container">
         <div class="col-lg-12">
-            <div class="text-center mt-4">
-                <h1 class="h4 mb-4" style="font-size: 32px">JwT Home</h1>
+            <div class="text-center mt-2">
+                <h1 class="h4 mb-2" style="font-size: 32px">JwT Home</h1>
             </div>
         </div>
         <div class="div_main menu">
             <div class="row justify-content-md-center p-3">
-                <div class="col-lg-6">
-                    <div class="mt-4">
-                        <h4>Level:</h4>
-                    </div>
-                    <div class="text-center mt-1 mb-4">
-                        <select class="form-control" id="level_select" onchange="viewListLesson(this.value)"></select>
+                <div class="col-lg-3 mt-2">
+                    <div class="row">
+                        <div class="col-4 text-end"><h4>Level:</h4></div>
+                        <div class="col-8">
+                            <select class="form-control" id="level_select" onchange="viewListLesson(this.value)"></select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="mt-4">
-                        <h4>Type:</h4>
+                <div class="col-lg-3 mt-2">
+                    <div class="row">
+                        <div class="col-4 text-end"><h4>Type:</h4></div>
+                        <div class="col-8">
+                            <select class="form-control" id="type_select">
+                                <option value="test">Test</option>
+                                <option value="view">View</option>
+                                <option value="hideWord">Hidden Word</option>
+                                <option value="hideMean">Hidden Mean</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="text-center mt-1 mb-4">
-                        <select class="form-control" id="type_select">
-                            <option value="test">Test</option>
-                            <option value="view">View</option>
-                            <option value="hideWord">Hidden Word</option>
-                            <option value="hideMean">Hidden Mean</option>
-                        </select>
+                </div>
+                <div class="col-lg-6 mt-2">
+                    <div class="row">
+                        <div class="col-4 text-end"><h4>WordType:</h4></div>
+                        <div class="col-8">
+                            <select class="form-control" id="wordtype_select">
+                                <option value="All" selected>All</option>
+                                <option value="NVA">N, V, A</option>
+                                <option value="N">Noun</option>
+                                <option value="V">Verb</option>
+                                <option value="A">Adjective</option>
+                                <option value="O">Other</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,7 +68,11 @@
                             <h6 class="m-0 font-weight-bold text-primary">Từ vựng</h6>
                         </div>
                         <div class="card-body" style="padding: 0.5em">
-                            <div class="col div_index lesson_div" id="wordbook_lesson_div">
+                            <div class="col div_index lesson_div">
+                                <table class="table table-striped w-100">
+                                    <tbody id="wordbook_lesson_div">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -64,7 +83,13 @@
                             <h6 class="m-0 font-weight-bold text-primary">Kanji</h6>
                         </div>
                         <div class="card-body" style="padding: 0.5em">
-                            <div class="col div_index lesson_div" id="kanji_lesson_div">
+                            <div class="card-body" style="padding: 0.5em">
+                                <div class="col div_index lesson_div">
+                                    <table class="table table-striped w-100">
+                                        <tbody id="kanji_lesson_div">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,6 +105,7 @@
                 <table class="table table-bordered  table-striped" cellspacing="0" width="100%">
                     <thead class="bg-dark text-white">
                         <tr>
+                            <td class="td_1_20 text-center">#</td>
                             <th class="th-sm td_7_20 text-center">
                                 <ruby>
                                     Hira
@@ -109,9 +135,10 @@
     </button>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.easing.min.js"></script>
-    <script src="js/data/tuvung.js"></script>
-    <script src="js/data/kanji.js"></script>
+    <script src="js/data/tuvung_dev.js"></script>
+    <script src="js/data/kanji_dev.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/common.js"></script>
 </body>
 
 </html>

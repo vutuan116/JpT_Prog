@@ -17,6 +17,11 @@
     font-weight: bold;
 }
 
+.tbl-no-custom{
+    color: lightblue!important;
+    font-size: 22px;
+}
+
 ruby {
     display: inline-flex;
     flex-direction: column-reverse;
@@ -29,7 +34,9 @@ rt {
     font-size: 90%;
     color: red;
 }
-
+.td_1_20{
+    width: 5%;
+}
 .td_7_20{
     width: 35%;
 }
@@ -55,6 +62,11 @@ rt {
     bottom: 10px!important;
     right: 10px!important;
     z-index: 10000;
+}
+
+h1, h2, h3, h4, h5, h6{
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
 }
 
 @media only screen and (max-width: 768px) {
