@@ -27,6 +27,10 @@ ruby {
     flex-direction: column-reverse;
 }
 
+.wb_selected, .kj_selected{
+    color: red;
+}
+
 rb,
 rt {
     display: inline;

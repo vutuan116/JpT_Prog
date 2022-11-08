@@ -14,13 +14,38 @@ $(document).ready(function () {
 
     setting();
     viewListLevel();
-    viewListLesson($("#level_select").val());
+    viewListLesson();
 
     goHome();
     // ==================== Test Start ====================
     $('#wb_lesson_1').attr('checked', 'checked');
     //start();
     // ==================== Test end ====================
+
+
+    $(".wb_lesson").on('change', function () {
+        let listLesson = $(".wb_lesson[type=checkbox]:checked");
+        if (!listLesson || listLesson.length == 0) {
+            return;
+        }
+        var listLs = "";
+        listLesson.each(x => {
+            listLs = listLs + (x==0?'':', ') + listLesson[x].value;
+        });
+        $(".wb_selected").html(listLs);
+    });
+
+    $(".kj_lesson").on('change', function () {
+        let listLesson = $(".kj_lesson[type=checkbox]:checked");
+        if (!listLesson || listLesson.length == 0) {
+            return;
+        }
+        var listLs = "";
+        listLesson.each(x => {
+            listLs = listLs + (x==0?'':', ') + listLesson[x].value;
+        });
+        $(".kj_selected").html(listLs);
+    });
 });
 
 function viewListLevel() {
@@ -38,23 +63,25 @@ function viewListLevel() {
     })
 }
 
-function viewListLesson(level) {
+function viewListLesson() {
     let indexWb = 0;
     let htmlWb = "";
     let htmlKj = "";
+    let level = $("#level_select").val();
+
     $("#wordbook_lesson_div").empty();
     $("#kanji_lesson_div").empty();
     tuVungJson.forEach(x => {
         indexWb++;
         if (level == x.Level) {
-            let historyLs = lessonHistory.find(x=>x.Name==x.Lesson);
+            let historyLs = lessonHistory.find(lsItem => lsItem.Name == x.Lesson);
             htmlWb = htmlWb +
                 `<tr>
                     <td>
-                        <input class="cursor_pointer" type="checkbox" value="${x.Lesson}" id="wb_lesson_${indexWb}">
+                        <input class="cursor_pointer wb_lesson" type="checkbox" value="${x.Lesson}" id="wb_lesson_${indexWb}">
                         <label class="cursor_pointer" for="wb_lesson_${indexWb}">&nbsp;${x.Lesson}</label>
                     </td>
-                    <td class="text-end">${historyLs?historyLs.Time:''}</td>
+                    <td class="text-end">${historyLs ? historyLs.Time : ''}</td>
                 </tr>`;
         }
     });
@@ -64,14 +91,14 @@ function viewListLesson(level) {
     kanjiJson.forEach(x => {
         indexWb++;
         if (level == x.Level) {
-            let historyLs = lessonHistory.find((lsItem)=>{return lsItem.Name==x.Lesson});
+            let historyLs = lessonHistory.find((lsItem) => { return lsItem.Name == x.Lesson });
             htmlKj = htmlKj +
                 `<tr>
                     <td>
-                        <input class="cursor_pointer" type="checkbox" value="${x.Lesson}" id="wb_lesson_${indexWb}">
+                        <input class="cursor_pointer kj_lesson" type="checkbox" value="${x.Lesson}" id="wb_lesson_${indexWb}">
                         <label class="cursor_pointer" for="wb_lesson_${indexWb}">&nbsp;${x.Lesson}</label>
                     </td>
-                    <td class="text-end">${historyLs?historyLs.Time:''}</td>
+                    <td class="text-end">${historyLs ? historyLs.Time : ''}</td>
                 </tr>`;
         }
     });
@@ -96,19 +123,19 @@ function start() {
             listWbTemp = z.Data;
             switch (wordType) {
                 case "NVA":
-                    listWbTemp = listWbTemp.filter(wb=>wb.Type=="N"||wb.Type=="V"||wb.Type=="A");
+                    listWbTemp = listWbTemp.filter(wb => wb.Type == "N" || wb.Type == "V" || wb.Type == "A");
                     break;
                 case "N":
-                    listWbTemp = listWbTemp.filter(wb=>wb.Type=="N");
+                    listWbTemp = listWbTemp.filter(wb => wb.Type == "N");
                     break;
                 case "V":
-                    listWbTemp = listWbTemp.filter(wb=>wb.Type=="V");
+                    listWbTemp = listWbTemp.filter(wb => wb.Type == "V");
                     break;
                 case "A":
-                    listWbTemp = listWbTemp.filter(wb=>wb.Type=="A");
+                    listWbTemp = listWbTemp.filter(wb => wb.Type == "A");
                     break;
                 case "O":
-                    listWbTemp = listWbTemp.filter(wb=>wb.Type=="O");
+                    listWbTemp = listWbTemp.filter(wb => wb.Type == "O");
                     break;
             }
             listWordbook = listWordbook.concat(listWbTemp);
@@ -130,7 +157,7 @@ function viewListWordbook() {
     var id = 0;
     // ==================== Test Start ====================
     // var typeSelected = "view";
-    var typeSelected = $('#type_select').find(":selected").val();
+    var typeSelected = $('#type_select').val();
     // ==================== Test End ====================
     switch (typeSelected) {
         case "test":
@@ -179,8 +206,10 @@ function againTestWb() {
     var listWbChecked = $(".word_repeat:checked");
 
     if (!listWbChecked || listWbChecked.length == 0) {
-        saveLessonHistory();
-        viewListLesson();
+        if ($("#type_select").val() != "view") {
+            saveLessonHistory();
+            viewListLesson();
+        }
         goHome();
     }
 
