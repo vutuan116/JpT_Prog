@@ -1,27 +1,27 @@
-var menuSetting={};
-var lessonHistory= [];
-var wordHardHistory= [];
+var menuSetting = {};
+var lessonHistory = [];
+var wordHardHistory = [];
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function setting() {
-    menuSetting = JSON.parse(localStorage.getItem("menuSetting")??"{}");
-    lessonHistory = JSON.parse(localStorage.getItem("lessonHistory")??"[]");
-    wordHardHistory = JSON.parse(localStorage.getItem("wordHardHistory")??"[]");
+    menuSetting = JSON.parse(localStorage.getItem("menuSetting") ?? "{}");
+    lessonHistory = JSON.parse(localStorage.getItem("lessonHistory") ?? "[]");
+    wordHardHistory = JSON.parse(localStorage.getItem("wordHardHistory") ?? "[]");
 
-    if (menuSetting.Level){
+    if (menuSetting.Level) {
         $("#level_select").val(menuSetting.Level);
     }
-    if (menuSetting.Type){
+    if (menuSetting.Type) {
         $("#type_select").val(menuSetting.Type);
     }
-    if (menuSetting.WordType){
+    if (menuSetting.WordType) {
         $("#wordtype_select").val(menuSetting.WordType);
     }
 }
 
-function saveSetting(){
+function saveSetting() {
     menuSetting.Level = $("#level_select").val();
     menuSetting.Type = $("#type_select").val();
     menuSetting.WordType = $("#wordtype_select").val();
@@ -29,22 +29,32 @@ function saveSetting(){
     localStorage.setItem("menuSetting", JSON.stringify(menuSetting));
 }
 
-function saveLessonHistory(){
+function saveLessonHistory() {
     let listLessonSelected = $("input[type=checkbox]:checked");
     listLessonSelected.each(x => {
-        let ls = lessonHistory.find(lsItem=> lsItem.Name == listLessonSelected[x]);
-        if (ls){
+        let ls = lessonHistory.find(lsItem => lsItem.Name == listLessonSelected[x]);
+        if (ls) {
             ls.Time = new Date().yyyyMMdd();
-        }else{
-            lessonHistory.push({"Name":listLessonSelected[x].value, "Time":new Date().yyyyMMdd()})
+        } else {
+            lessonHistory.push({ "Name": listLessonSelected[x].value, "Time": new Date().yyyyMMdd() })
         }
     });
 
     localStorage.setItem("lessonHistory", JSON.stringify(lessonHistory));
 }
 
-function saveWordHard(){
-
+function saveWordHard() {
+    let listWb = $(".btn_wordhard.on");
+    listWordbook.forEach(x => {
+        let index = wordHardHistory.indexOf(x.Id);
+        if (index >= 0) {
+            wordHardHistory.splice(index, 1);
+        }
+    });
+    listWb.each(x => {
+        wordHardHistory.push(listWb[x].getAttribute("value"));
+    });
+    localStorage.setItem("wordHardHistory", JSON.stringify(wordHardHistory));
 }
 
 function derangeArray(listItem) {
@@ -64,6 +74,11 @@ function goTop() {
 function goHome() {
     $(".div_main").addClass("hide");
     $(".menu").removeClass("hide");
+}
+
+function resetHideStatus() {
+    $(".td_col_index").addClass("hide");
+    $(".td_btn_support").addClass("hide");
 }
 
 Date.prototype.hhmmss = function () {
