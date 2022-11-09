@@ -17,8 +17,25 @@
     font-weight: bold;
 }
 
+.btn_wordhard.on, .btn_repeat.on{
+    color: red;
+}
+.btn_wordhard.on:hover,.btn_repeat.on:hover{
+    color: red;
+}
+
+.btn_wordhard, .btn_repeat{
+    color: lightgray;
+    font-size: 22px;
+}
+
+.btn_wordhard:hover,.btn_repeat:hover{
+    color: rgb(185, 122, 122);
+    cursor: pointer;
+}
+
 .tbl-no-custom{
-    color: lightblue!important;
+    color: black!important;
     font-size: 22px;
 }
 
@@ -43,6 +60,13 @@ rt {
 }
 .td_7_20{
     width: 35%;
+}
+
+.bd_l_0{
+    border-left: 0px;
+}
+.bd_r_0{
+    border-right: 0px;
 }
 
 .td_btn_repeat{
