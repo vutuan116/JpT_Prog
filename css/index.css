@@ -18,10 +18,10 @@
 }
 
 .btn_wordhard.on, .btn_repeat.on{
-    color: red;
+    color: #ffcd39;
 }
 .btn_wordhard.on:hover,.btn_repeat.on:hover{
-    color: red;
+    color: #ffcd39;
 }
 
 .btn_wordhard, .btn_repeat{
@@ -84,12 +84,16 @@ rt {
 .hide{
     display: none;
 }
-
+.w-80{
+    width: 80%;
+}
 .btn_ontop{
     position: fixed;
     bottom: 10px!important;
     right: 10px!important;
     z-index: 10000;
+    color: green;
+    font-size: 32px;
 }
 
 h1, h2, h3, h4, h5, h6{
