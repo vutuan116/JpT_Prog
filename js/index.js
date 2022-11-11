@@ -116,7 +116,7 @@ function start() {
     resetHideStatus();
 
     let listLesson = $("input[type=checkbox]:checked");
-    goTop();
+    $("btn_ontop").click();
     if (!listLesson || listLesson.length == 0) {
         alert("Hãy chọn ít nhất 1 bài học");
         return;
@@ -148,7 +148,7 @@ function start() {
                     break;
                 case "OnLyHard":
                     listWbTemp.forEach(wb1=>{
-                        if (wordHardHistory.includes(wb1.Id)){
+                        if (wordHardHistory.includes(wb1.Id.toString())){
                             wb1.IsWordHard = true;
                         }
                     })
@@ -160,11 +160,14 @@ function start() {
         });
     });
     listWordbook.forEach(x => {
-        if (wordHardHistory.includes(x.Id)) {
+        if (wordHardHistory.includes(x.Id.toString())) {
             x.IsWordHard = true;
         }
     });
-    listWordbook = derangeArray(listWordbook);
+    if ($('#type_select').val()!="view"){
+        listWordbook = derangeArray(listWordbook);
+    }
+    
     viewListWordbook();
 
     $(".div_main").addClass("hide");

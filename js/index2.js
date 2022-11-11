@@ -11,24 +11,13 @@ function viewListWordbook() {
             listWordbook.forEach(x => {
                 var isShowHira = getRandomInt(0, 100) % 2 == 0;
                 if (isShowHira) {
-                    html = html + genHtmlForWordBook(x, true, false);
+                    html = html + genHtmlForWordBook(x, true, false, index);
                 } else {
-                    html = html + genHtmlForWordBook(x, false, true);
+                    html = html + genHtmlForWordBook(x, false, true, index);
                 }
                 index++;
             });
-            break;
-        case "hideWord":
-            listWordbook.forEach(x => {
-                html = html + genHtmlForWordBook(x, false, true);
-                index++;
-            });
-            break;
-        case "hideMean":
-            listWordbook.forEach(x => {
-                html = html + genHtmlForWordBook(x, true, false);
-                index++;
-            });
+            $(".th_col_index").removeClass("hide");
             break;
         default:
             listWordbook.forEach(x => {
@@ -37,8 +26,7 @@ function viewListWordbook() {
             });
             $(".wb_btn.checkWb").addClass("hide");
             $(".wb_btn.againCheckWb").removeClass("hide");
-            $(".th_col_index").removeClass("hide");
-            $(".th_btn_support").removeClass("hide");
+            $(".th_col_hard").removeClass("hide");
             html = html.replaceAll('th_btn_support wordhard hide', 'th_btn_support wordhard');
     }
 
@@ -48,8 +36,10 @@ function viewListWordbook() {
 function checkWordbook() {
     $(".wb.hide").removeClass("hide");
     $(".wb_btn.checkWb").addClass("hide");
+    $(".th_col_hard").removeClass("hide");
     $(".th_btn_support").removeClass("hide");
-    goTop();
+    $(".wb_btn.againCheckWb").removeClass("hide");
+    $(".btn_ontop").click();
 }
 
 function againTestWb() {
@@ -73,11 +63,17 @@ function againTestWb() {
 
     $(".wb_btn.checkWb").removeClass("hide");
     $(".wb_btn.againCheckWb").addClass("hide");
-    goTop();
+    $("btn_ontop").click();
 }
 
-function genHtmlForWordBook(word, isShowHira, isShowMean) {
+function genHtmlForWordBook(word, isShowHira, isShowMean, index) {
     let resultHtml = `<tr>`;
+
+    if (index){
+        resultHtml = resultHtml + 
+        `<td>${index}</td>`;
+    }
+
     if (word.IsWordHard) {
         resultHtml = resultHtml +
             `<td class="th_btn_support wordhard hide text-center bd_l_0">
@@ -103,7 +99,6 @@ function genHtmlForWordBook(word, isShowHira, isShowMean) {
                 <ruby class="wb hide">${word.Hira}
                     <rt>${word.Kanji}</rt>
                 </ruby>
-                <input class="w-100">
             </td>`;
     }
 
@@ -115,7 +110,6 @@ function genHtmlForWordBook(word, isShowHira, isShowMean) {
     } else {
         resultHtml = resultHtml +
             `<td>
-                <input class="w-100">
                 <span class="wb hide">${word.Mean}</span>
             </td>`;
     }

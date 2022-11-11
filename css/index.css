@@ -17,11 +17,18 @@
     font-weight: bold;
 }
 
-.btn_wordhard.on, .btn_repeat.on{
+.btn_wordhard.on{
     color: #ffcd39;
 }
-.btn_wordhard.on:hover,.btn_repeat.on:hover{
-    color: #ffcd39;
+.btn_wordhard.on:hover{
+    color: #fdcf45;
+}
+
+.btn_repeat.on{
+    color: rgb(201, 3, 3);
+}
+.btn_repeat.on:hover{
+    color: rgb(185, 24, 24);
 }
 
 .btn_wordhard, .btn_repeat{
@@ -89,6 +96,14 @@ rt {
 }
 .btn_ontop{
     position: fixed;
+    bottom: 42px!important;
+    right: 10px!important;
+    z-index: 10000;
+    color: green;
+    font-size: 32px;
+}
+.btn_bottom{
+    position: fixed;
     bottom: 10px!important;
     right: 10px!important;
     z-index: 10000;
@@ -108,6 +123,17 @@ h1, h2, h3, h4, h5, h6{
 
     #tbl_body_list_wordbook{
         font-size: 20px;
+    }
+
+    .btn_bottom{
+        font-size: 24px;
+        bottom: 5px!important;
+        right: 5px!important;
+    }
+    .btn_ontop{
+        font-size: 24px;
+        bottom: 32px!important;
+        right: 5px!important;
     }
 }
 

@@ -67,18 +67,16 @@ function derangeArray(listItem) {
     return result;
 }
 
-function goTop() {
-    $("html").scrollTop(0);
-}
-
 function goHome() {
     $(".div_main").addClass("hide");
     $(".menu").removeClass("hide");
 }
 
 function resetHideStatus() {
-    $(".td_col_index").addClass("hide");
-    $(".td_btn_support").addClass("hide");
+    $(".th_col_index").addClass("hide");
+    $(".th_btn_support").addClass("hide");
+    $(".th_col_hard").addClass("hide");
+    $(".th_col_hard").addClass("hide");
 }
 
 Date.prototype.hhmmss = function () {

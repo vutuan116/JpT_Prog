@@ -13,6 +13,7 @@
 </head>
 
 <body class="">
+    <div id="top"></div>
     <div class="container">
         <div class="col-lg-12">
             <div class="text-center mt-2">
@@ -23,28 +24,35 @@
             <div class="row justify-content-md-center p-3">
                 <div class="col-lg-3 mt-2">
                     <div class="row">
-                        <div class="col-4 text-end"><h4>Level:</h4></div>
+                        <div class="col-4 text-end">
+                            <h4>Level:</h4>
+                        </div>
                         <div class="col-8">
-                            <select class="form-control" id="level_select" onchange="viewListLesson(this.value)"></select>
+                            <select class="form-control" id="level_select"
+                                onchange="viewListLesson(this.value)"></select>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 mt-2">
                     <div class="row">
-                        <div class="col-4 text-end"><h4>Type:</h4></div>
+                        <div class="col-4 text-end">
+                            <h4>Type:</h4>
+                        </div>
                         <div class="col-8">
                             <select class="form-control" id="type_select">
                                 <option value="test">Test</option>
                                 <option value="view">View</option>
-                                <option value="hideWord">Hidden Word</option>
-                                <option value="hideMean">Hidden Mean</option>
+                                <!-- <option value="hideWord">Hidden Word</option>
+                                <option value="hideMean">Hidden Mean</option> -->
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 mt-2">
                     <div class="row">
-                        <div class="col-4 text-end"><h4>WordType:</h4></div>
+                        <div class="col-4 text-end">
+                            <h4>WordType:</h4>
+                        </div>
                         <div class="col-8">
                             <select class="form-control" id="wordtype_select">
                                 <option value="All" selected>All</option>
@@ -53,7 +61,6 @@
                                 <option value="N">Noun</option>
                                 <option value="V">Verb</option>
                                 <option value="A">Adjective</option>
-                                <option value="O">Other</option>
                             </select>
                         </div>
                     </div>
@@ -63,7 +70,8 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card">
                         <div class="card-header py-2">
-                            <h6 class="m-0 font-weight-bold text-primary">Từ vựng: <span class="wb_selected"></span></h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Từ vựng: <span class="wb_selected"></span>
+                            </h6>
                         </div>
                         <div class="card-body" style="padding: 0.5em">
                             <div class="col div_index lesson_div">
@@ -103,7 +111,8 @@
                 <table class="table table-bordered  table-striped" cellspacing="0" width="100%">
                     <thead class="bg-dark text-white">
                         <tr>
-                            <th class="td_1_20 text-center th_col_index hide"><i class="fas fa-star-half-alt"></i></th>
+                            <th class="td_1_20 text-center th_col_index hide">No</th>
+                            <th class="td_1_20 text-center th_col_hard hide"><i class="fas fa-star-half-alt"></i></th>
                             <th class="th-sm td_7_20 text-center">
                                 <ruby>
                                     Hira
@@ -111,7 +120,8 @@
                                 </ruby>
                             </th>
                             <th class="th-sm text-center">Meaning</th>
-                            <!-- <th class="th_btn_support hide text-center" colspan="2"><i class="fa-solid fa-square-plus"></i></th> -->
+                            <th class="td_1_20 th_btn_support hide text-center"><i class="fa-solid fa-square-plus"></i>
+                            </th>
                         </tr>
                     </thead>
                     <tbody id="tbl_body_list_wordbook">
@@ -126,13 +136,13 @@
             </div>
         </div>
     </div>
-
-    </div>
-    <i class="fas fa-chevron-square-up btn_ontop opacity-50" onclick="goTop()"></i>
+    <div id="bottom"></div>
+    <a class="btn_ontop" href="#top"><i class="fas fa-chevron-square-up opacity-50"></i></a>
+    <a class="btn_bottom" href="#bottom"><i class="fas fa-chevron-square-down opacity-50"></i></a>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.easing.min.js"></script>
-    <script src="js/data/tuvung.js"></script>
+    <script src="js/data/tuvung_dev.js"></script>
     <script src="js/data/kanji.js"></script>
     <script src="js/index.js"></script>
     <script src="js/index2.js"></script>
