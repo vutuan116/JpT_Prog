@@ -113,8 +113,7 @@ function viewListLesson() {
 }
 
 function start() {
-    resetHideStatus();
-
+    listWordbook = [];
     let listLesson = $("input[type=checkbox]:checked");
     $("btn_ontop").click();
     if (!listLesson || listLesson.length == 0) {

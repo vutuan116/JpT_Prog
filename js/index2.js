@@ -1,5 +1,6 @@
 
 function viewListWordbook() {
+    resetHideStatus();
     var html = "";
     var index = 1;
     // ==================== Test Start ====================
@@ -18,6 +19,8 @@ function viewListWordbook() {
                 index++;
             });
             $(".th_col_index").removeClass("hide");
+            $(".wb_btn.checkWb").removeClass("hide");
+            $(".wb_btn.againCheckWb").addClass("hide");
             break;
         default:
             listWordbook.forEach(x => {
@@ -27,7 +30,7 @@ function viewListWordbook() {
             $(".wb_btn.checkWb").addClass("hide");
             $(".wb_btn.againCheckWb").removeClass("hide");
             $(".th_col_hard").removeClass("hide");
-            html = html.replaceAll('th_btn_support wordhard hide', 'th_btn_support wordhard');
+            html = html.replaceAll('th_col_repeat wordhard hide', 'th_col_repeat wordhard');
     }
 
     $("#tbl_body_list_wordbook").html(html);
@@ -37,25 +40,25 @@ function checkWordbook() {
     $(".wb.hide").removeClass("hide");
     $(".wb_btn.checkWb").addClass("hide");
     $(".th_col_hard").removeClass("hide");
-    $(".th_btn_support").removeClass("hide");
+    $(".th_col_repeat").removeClass("hide");
     $(".wb_btn.againCheckWb").removeClass("hide");
     $(".btn_ontop").click();
 }
 
 function againTestWb() {
-    var listWbChecked = $(".word_repeat:checked");
+    var listWbChecked = $(".btn_repeat.on");
 
     if (!listWbChecked || listWbChecked.length == 0) {
         saveLessonHistory();
         saveWordHard();
         goHome();
         viewListLesson();
+        return;
     }
 
     var listWbRepeat = [];
     listWbChecked.each(x => {
-        let id = listWbChecked[x].id.replace("word_repeat_", "");
-        listWbRepeat.push(listWordbook[Number(id)]);
+        listWbRepeat.push(listWordbook[Number(listWbChecked[x].getAttribute("value"))]);
     });
 
     listWordbook = listWbRepeat;
@@ -71,17 +74,17 @@ function genHtmlForWordBook(word, isShowHira, isShowMean, index) {
 
     if (index){
         resultHtml = resultHtml + 
-        `<td>${index}</td>`;
+        `<td class="text-center">${index}</td>`;
     }
 
     if (word.IsWordHard) {
         resultHtml = resultHtml +
-            `<td class="th_btn_support wordhard hide text-center bd_l_0">
+            `<td class="th_col_hard wordhard hide text-center bd_l_0">
                 <i class="fas fa-star btn_wordhard on" value="${word.Id}" onclick="this.classList.toggle('on')"></i>
             </td>`;
     } else {
         resultHtml = resultHtml +
-            `<td class="th_btn_support wordhard hide text-center bd_l_0">
+            `<td class="th_col_hard wordhard hide text-center bd_l_0">
                 <i class="fas fa-star btn_wordhard" value="${word.Id}" onclick="this.classList.toggle('on')"></i>
             </td>`;
     }
@@ -115,8 +118,8 @@ function genHtmlForWordBook(word, isShowHira, isShowMean, index) {
     }
 
     resultHtml = resultHtml +
-        `<td class="th_btn_support text-center hide bd_r_0">
-            <i class="fas fa-repeat btn_repeat" onclick="this.classList.toggle('on')"></i>
+        `<td class="th_col_repeat text-center hide bd_r_0">
+            <i class="fas fa-repeat btn_repeat" onclick="this.classList.toggle('on')" index="${index}"></i>
         </td>`;
     return resultHtml;
 }

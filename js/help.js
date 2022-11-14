@@ -46,7 +46,7 @@ function saveLessonHistory() {
 function saveWordHard() {
     let listWb = $(".btn_wordhard.on");
     listWordbook.forEach(x => {
-        let index = wordHardHistory.indexOf(x.Id);
+        let index = wordHardHistory.indexOf(x.Id.toString());
         if (index >= 0) {
             wordHardHistory.splice(index, 1);
         }
@@ -74,7 +74,7 @@ function goHome() {
 
 function resetHideStatus() {
     $(".th_col_index").addClass("hide");
-    $(".th_btn_support").addClass("hide");
+    $(".th_col_repeat").addClass("hide");
     $(".th_col_hard").addClass("hide");
     $(".th_col_hard").addClass("hide");
 }
