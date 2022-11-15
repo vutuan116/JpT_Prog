@@ -19,12 +19,25 @@ function setting() {
     if (menuSetting.WordType) {
         $("#wordtype_select").val(menuSetting.WordType);
     }
+    if (menuSetting.WordSelect) {
+        $("#word_select").val(menuSetting.WordSelect);
+    } else {
+        $("#word_select").val("wordbook");
+    }
+    if ($("#word_select").val() == "wordbook") {
+        $("#wordbook_lesson_div").removeClass("hide");
+        $("#kanji_lesson_div").addClass("hide");
+    } else {
+        $("#wordbook_lesson_div").addClass("hide");
+        $("#kanji_lesson_div").removeClass("hide");
+    }
 }
 
 function saveSetting() {
     menuSetting.Level = $("#level_select").val();
     menuSetting.Type = $("#type_select").val();
     menuSetting.WordType = $("#wordtype_select").val();
+    menuSetting.WordSelect = $("#word_select").val();
 
     localStorage.setItem("menuSetting", JSON.stringify(menuSetting));
 }
@@ -32,7 +45,7 @@ function saveSetting() {
 function saveLessonHistory() {
     let listLessonSelected = $("input[type=checkbox]:checked");
     listLessonSelected.each(x => {
-        let ls = lessonHistory.find(lsItem => lsItem.Name == listLessonSelected[x]);
+        let ls = lessonHistory.find(lsItem => lsItem.Name == listLessonSelected[x].value);
         if (ls) {
             ls.Time = new Date().yyyyMMdd();
         } else {
@@ -88,9 +101,9 @@ Date.prototype.hhmmss = function () {
 };
 
 Date.prototype.yyyyMMdd = function () {
-    var hh = this.getFullYear();
-    var MM = this.getMonth();
-    var ss = this.getDay();
+    var yy = this.getFullYear();
+    var MM = this.getMonth() + 1;
+    var dd = this.getDate();
 
-    return [hh < 10 ? '0' + hh : hh, MM < 10 ? '0' + MM : MM, ss < 10 ? '0' + ss : ss].join('-');
+    return [yy < 10 ? '0' + yy : yy, MM < 10 ? '0' + MM : MM, dd < 10 ? '0' + dd : dd].join('-');
 };

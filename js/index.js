@@ -20,26 +20,36 @@ $(document).ready(function () {
         var listLs = "";
         let listLesson = $(".wb_lesson[type=checkbox]:checked");
         if (!listLesson || listLesson.length == 0) {
-            $(".wb_selected").html(listLs);
+            $(".ls_selected").html(listLs);
             return;
         }
         listLesson.each(x => {
             listLs = listLs + (x == 0 ? '' : ', ') + listLesson[x].value;
         });
-        $(".wb_selected").html(listLs);
+        $(".ls_selected").html(listLs);
     });
 
     $(".kj_lesson").on('change', () => {
         var listLs = "";
         let listLesson = $(".kj_lesson[type=checkbox]:checked");
         if (!listLesson || listLesson.length == 0) {
-            $(".kj_selected").html(listLs);
+            $(".ls_selected").html(listLs);
             return;
         }
         listLesson.each(x => {
             listLs = listLs + (x == 0 ? '' : ', ') + listLesson[x].value;
         });
-        $(".kj_selected").html(listLs);
+        $(".ls_selected").html(listLs);
+    });
+
+    $("#word_select").on('change', () => {
+        if ($("#word_select").val() == "wordbook") {
+            $("#wordbook_lesson_div").removeClass("hide");
+            $("#kanji_lesson_div").addClass("hide");
+        } else {
+            $("#wordbook_lesson_div").addClass("hide");
+            $("#kanji_lesson_div").removeClass("hide");
+        }
     });
 
     $(".btn_repeat").on('click', () => {
@@ -50,7 +60,7 @@ $(document).ready(function () {
     });
 
     // ==================== Test Start ====================
-    $('#wb_lesson_1').attr('checked', 'checked');
+    //$('#wb_lesson_4').attr('checked', 'checked');
     //start();
     // ==================== Test end ====================
 });
@@ -122,52 +132,70 @@ function start() {
     }
 
     let level = $("#level_select").val();
-    var i = 0;
     let wordType = $("#wordtype_select").val();
 
     listLesson.each(x => {
         lesson = listLesson[x];
-        tuVungJson.filter(y => y.Level == level && y.Lesson == lesson.value).forEach(z => {
-            listWbTemp = z.Data;
-            switch (wordType) {
-                case "NVA":
-                    listWbTemp = listWbTemp.filter(wb => wb.Type == "N" || wb.Type == "V" || wb.Type == "A");
-                    break;
-                case "N":
-                    listWbTemp = listWbTemp.filter(wb => wb.Type == "N");
-                    break;
-                case "V":
-                    listWbTemp = listWbTemp.filter(wb => wb.Type == "V");
-                    break;
-                case "A":
-                    listWbTemp = listWbTemp.filter(wb => wb.Type == "A");
-                    break;
-                case "O":
-                    listWbTemp = listWbTemp.filter(wb => wb.Type == "O");
-                    break;
-                case "OnLyHard":
-                    listWbTemp.forEach(wb1=>{
-                        if (wordHardHistory.includes(wb1.Id.toString())){
+        if ($("#word_select").val() == "wordbook") {
+            tuVungJson.filter(y => y.Level == level && y.Lesson == lesson.value).forEach(z => {
+                let listWbTemp = z.Data;
+                switch (wordType) {
+                    case "NVA":
+                        listWbTemp = listWbTemp.filter(wb => wb.Type == "N" || wb.Type == "V" || wb.Type == "A");
+                        break;
+                    case "N":
+                        listWbTemp = listWbTemp.filter(wb => wb.Type == "N");
+                        break;
+                    case "V":
+                        listWbTemp = listWbTemp.filter(wb => wb.Type == "V");
+                        break;
+                    case "A":
+                        listWbTemp = listWbTemp.filter(wb => wb.Type == "A");
+                        break;
+                    case "O":
+                        listWbTemp = listWbTemp.filter(wb => wb.Type == "O");
+                        break;
+                    case "OnLyHard":
+                        listWbTemp.forEach(wb1 => {
+                            if (wordHardHistory.includes(wb1.Id.toString())) {
+                                wb1.IsWordHard = true;
+                            }
+                        })
+                        listWbTemp = listWbTemp.filter(wb => wb.IsWordHard);
+                        break;
+                }
+                listWordbook = listWordbook.concat(listWbTemp);
+            });
+        } else {
+            kanjiJson.filter(y => y.Level == level && y.Lesson == lesson.value).forEach(z => {
+                let listKjTemp = z.Data;
+                if (wordType=="OnLyHard"){
+                    listKjTemp.forEach(wb1 => {
+                        if (wordHardHistory.includes(wb1.Id.toString())) {
                             wb1.IsWordHard = true;
                         }
                     })
-                    listWbTemp = listWbTemp.filter(wb => wb.IsWordHard);
-                    break;
-            }
-            listWordbook = listWordbook.concat(listWbTemp);
-            i++;
-        });
+                    listKjTemp = listKjTemp.filter(wb => wb.IsWordHard);
+                }
+                listWordbook = listWordbook.concat(listKjTemp);
+            });
+        }
     });
     listWordbook.forEach(x => {
         if (wordHardHistory.includes(x.Id.toString())) {
             x.IsWordHard = true;
         }
     });
-    if ($('#type_select').val()!="view"){
+    if ($('#type_select').val() != "view") {
         listWordbook = derangeArray(listWordbook);
     }
+
+    if ($("#word_select").val()=="wordbook"){
+        viewListWordbook();
+    }else{
+        viewKanji();
+    }
     
-    viewListWordbook();
 
     $(".div_main").addClass("hide");
     $(".test_wb").removeClass("hide");

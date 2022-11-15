@@ -3,6 +3,14 @@
         height: 34vh !important;
     }
 }
+.cnvi{
+    font-size: 70%;
+    color: #575a91;
+}
+p{
+    margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
+}
 
 .cursor_pointer {
     cursor: pointer;
@@ -51,7 +59,7 @@ ruby {
     flex-direction: column-reverse;
 }
 
-.wb_selected, .kj_selected{
+.ls_selected{
     color: red;
 }
 
@@ -86,6 +94,10 @@ rt {
 #tbl_body_list_wordbook{
     font-size: 28px;
     vertical-align: middle;
+}
+
+#word_select{
+    font-weight: 600;
 }
 
 .hide{

@@ -24,10 +24,10 @@
             <div class="row justify-content-md-center p-3">
                 <div class="col-lg-3 mt-2">
                     <div class="row">
-                        <div class="col-4 text-end">
+                        <div class="col-5 text-end">
                             <h4>Level:</h4>
                         </div>
-                        <div class="col-8">
+                        <div class="col-7">
                             <select class="form-control" id="level_select"
                                 onchange="viewListLesson(this.value)"></select>
                         </div>
@@ -35,10 +35,10 @@
                 </div>
                 <div class="col-lg-3 mt-2">
                     <div class="row">
-                        <div class="col-4 text-end">
+                        <div class="col-5 text-end">
                             <h4>Type:</h4>
                         </div>
-                        <div class="col-8">
+                        <div class="col-7">
                             <select class="form-control" id="type_select">
                                 <option value="test">Test</option>
                                 <option value="view">View</option>
@@ -50,48 +50,34 @@
                 </div>
                 <div class="col-lg-6 mt-2">
                     <div class="row">
-                        <div class="col-4 text-end">
+                        <div class="col-5 text-end">
                             <h4>WordType:</h4>
                         </div>
-                        <div class="col-8">
+                        <div class="col-7">
                             <select class="form-control" id="wordtype_select">
                                 <option value="All" selected>All</option>
                                 <option value="OnLyHard">OnLy Hard</option>
-                                <option value="NVA">N, V, A</option>
-                                <option value="N">Noun</option>
-                                <option value="V">Verb</option>
-                                <option value="A">Adjective</option>
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row justify-content-md-center">
-                <div class="col-lg-6 mb-4">
-                    <div class="card">
-                        <div class="card-header py-2">
-                            <h6 class="m-0 font-weight-bold text-primary">Từ vựng: <span class="wb_selected"></span>
-                            </h6>
-                        </div>
-                        <div class="card-body" style="padding: 0.5em">
-                            <div class="col div_index lesson_div">
-                                <table class="table table-striped w-100">
-                                    <tbody id="wordbook_lesson_div">
-                                    </tbody>
-                                </table>
+                <div class="row justify-content-md-center m-0">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header py-2">
+                                <select class="form-control text-primary" id="word_select">
+                                    <option value="wordbook">Wordbook</option>
+                                    <option value="kanji">Kanji</option>
+                                </select>
+                                <h6 class="ls_selected"></h6>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card">
-                        <div class="card-header py-2">
-                            <h6 class="m-0 font-weight-bold text-primary">Kanji: <span class="kj_selected"></span></h6>
-                        </div>
-                        <div class="card-body" style="padding: 0.5em">
                             <div class="card-body" style="padding: 0.5em">
                                 <div class="col div_index lesson_div">
                                     <table class="table table-striped w-100">
+                                        <tbody id="wordbook_lesson_div">
+                                        </tbody>
                                         <tbody id="kanji_lesson_div">
                                         </tbody>
                                     </table>
@@ -100,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 mb-4 text-center">
+                <div class="col-lg-4 mt-3 text-center">
                     <button type="button" class="btn btn-primary btn-sm w-80 fw-bold" onclick="start()">Start</button>
                 </div>
             </div>
@@ -119,7 +105,7 @@
                                     <rt>Kanji</rt>
                                 </ruby>
                             </th>
-                            <th class="th-sm text-center">Meaning</th>
+                            <th class="th-sm td_7_20 text-center">Meaning</th>
                             <th class="td_1_20 th_col_repeat hide text-center"><i class="fa-solid fa-square-plus"></i>
                             </th>
                         </tr>
