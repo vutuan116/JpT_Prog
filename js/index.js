@@ -11,36 +11,10 @@ $(document).ready(function () {
         kanjiJson.push(item);
     });
 
-    setting();
     viewListLevel();
     viewListLesson();
+    setting();
     goHome();
-
-    $(".wb_lesson").on('change', () => {
-        var listLs = "";
-        let listLesson = $(".wb_lesson[type=checkbox]:checked");
-        if (!listLesson || listLesson.length == 0) {
-            $(".ls_selected").html(listLs);
-            return;
-        }
-        listLesson.each(x => {
-            listLs = listLs + (x == 0 ? '' : ', ') + listLesson[x].value;
-        });
-        $(".ls_selected").html(listLs);
-    });
-
-    $(".kj_lesson").on('change', () => {
-        var listLs = "";
-        let listLesson = $(".kj_lesson[type=checkbox]:checked");
-        if (!listLesson || listLesson.length == 0) {
-            $(".ls_selected").html(listLs);
-            return;
-        }
-        listLesson.each(x => {
-            listLs = listLs + (x == 0 ? '' : ', ') + listLesson[x].value;
-        });
-        $(".ls_selected").html(listLs);
-    });
 
     $("#word_select").on('change', () => {
         if ($("#word_select").val() == "wordbook") {
@@ -64,6 +38,23 @@ $(document).ready(function () {
     //start();
     // ==================== Test end ====================
 });
+
+function wbLessonChange(type) {
+    if (type == "wb") {
+        var listLesson = $(".wb_lesson[type=checkbox]:checked");
+    }
+    else {
+        var listLesson = $(".kj_lesson[type=checkbox]:checked");
+    }
+    var listLs = "";
+    if (listLesson && listLesson.length != 0) {
+        listLesson.each(x => {
+            listLs = listLs + (x == 0 ? '' : ', ') + listLesson[x].value;
+        });
+    }
+
+    $(".ls_selected").html(listLs);
+}
 
 function viewListLevel() {
     levelJson = [];
@@ -95,7 +86,7 @@ function viewListLesson() {
             htmlWb = htmlWb +
                 `<tr>
                     <td>
-                        <input class="cursor_pointer wb_lesson" type="checkbox" value="${x.Lesson}" id="wb_lesson_${indexWb}">
+                        <input class="cursor_pointer wb_lesson" type="checkbox" value="${x.Lesson}" id="wb_lesson_${indexWb}" onchange="wbLessonChange('wb')">
                         <label class="cursor_pointer" for="wb_lesson_${indexWb}">&nbsp;${x.Lesson}</label>
                     </td>
                     <td class="text-end">${historyLs ? historyLs.Time : ''}</td>
@@ -112,7 +103,7 @@ function viewListLesson() {
             htmlKj = htmlKj +
                 `<tr>
                     <td>
-                        <input class="cursor_pointer kj_lesson" type="checkbox" value="${x.Lesson}" id="wb_lesson_${indexWb}">
+                        <input class="cursor_pointer kj_lesson" type="checkbox" value="${x.Lesson}" id="wb_lesson_${indexWb}" onchange="wbLessonChange('kj')">
                         <label class="cursor_pointer" for="wb_lesson_${indexWb}">&nbsp;${x.Lesson}</label>
                     </td>
                     <td class="text-end">${historyLs ? historyLs.Time : ''}</td>
@@ -120,6 +111,7 @@ function viewListLesson() {
         }
     });
     $("#kanji_lesson_div").html(htmlKj);
+    $(".ls_selected").html("");
 }
 
 function start() {
@@ -169,7 +161,7 @@ function start() {
         } else {
             kanjiJson.filter(y => y.Level == level && y.Lesson == lesson.value).forEach(z => {
                 let listKjTemp = z.Data;
-                if (wordType=="OnLyHard"){
+                if (wordType == "OnLyHard") {
                     listKjTemp.forEach(wb1 => {
                         if (wordHardHistory.includes(wb1.Id.toString())) {
                             wb1.IsWordHard = true;
@@ -181,6 +173,12 @@ function start() {
             });
         }
     });
+
+    if (!listWordbook || listWordbook.length==0){
+        alert("Không có từ phù hợp");
+        return;
+    }
+
     listWordbook.forEach(x => {
         if (wordHardHistory.includes(x.Id.toString())) {
             x.IsWordHard = true;
@@ -190,12 +188,12 @@ function start() {
         listWordbook = derangeArray(listWordbook);
     }
 
-    if ($("#word_select").val()=="wordbook"){
+    if ($("#word_select").val() == "wordbook") {
         viewListWordbook();
-    }else{
+    } else {
         viewKanji();
     }
-    
+
 
     $(".div_main").addClass("hide");
     $(".test_wb").removeClass("hide");
