@@ -12,8 +12,8 @@ $(document).ready(function () {
     });
 
     viewListLevel();
-    viewListLesson();
     setting();
+    viewListLesson();
     goHome();
 
     $("#word_select").on('change', () => {
