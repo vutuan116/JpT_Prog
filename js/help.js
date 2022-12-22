@@ -107,3 +107,43 @@ Date.prototype.yyyyMMdd = function () {
 
     return [yy < 10 ? '0' + yy : yy, MM < 10 ? '0' + MM : MM, dd < 10 ? '0' + dd : dd].join('-');
 };
+
+$("#showMean").click(()=>{
+    if ($("#showMean").attr('class').includes("show")){
+        $("#showMean").removeClass("show");
+        $(".mean").each(function(){
+            $(this).addClass("hide");
+        });
+    }else{
+        $("#showMean").addClass("show");
+        $(".mean").each(function(){
+            $(this).removeClass("hide");
+        });
+    }
+});
+
+$("#showWb").click(()=>{
+    if ($("#showWb").attr('class').includes("show")){
+        $("#showWb").removeClass("show");
+        $(".wordbook").each(function(){
+            $(this).addClass("hide");
+        });
+    }else{
+        $("#showWb").addClass("show");
+        $(".wordbook").each(function(){
+            $(this).removeClass("hide");
+        });
+    }
+});
+
+function show(_this){
+    console.log(_this);
+    var html = _this.innerHTML;
+    if (html.includes("hide")){
+        html= html.replace("hide","hi_de");
+    }else{
+        html= html.replace("hi_de","hide");
+    }
+    
+    $(_this).html(html);
+}

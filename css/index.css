@@ -20,7 +20,9 @@ body{
         padding: 0.15rem 0.5rem;
     }
 }
-
+ruby{
+    vertical-align: middle;
+}
 .title{
     margin-top: 1.5rem;
     margin-bottom: 1rem;
@@ -76,7 +78,12 @@ p{
     color: black!important;
     font-size: 22px;
 }
-
+.show{
+    color: white!important;
+}
+.fa-eye{
+    color: gray;
+}
 ruby {
     display: inline-flex;
     flex-direction: column-reverse;
@@ -85,7 +92,9 @@ ruby {
 .ls_selected{
     color: red;
 }
-
+.gre_color{
+    color: rgb(9 36 167);
+}
 rb,
 rt {
     display: inline;
@@ -98,8 +107,11 @@ rt {
 }
 .td_7_20{
     width: 35%;
+    vertical-align: middle;
 }
-
+.fl_right{
+    float: right;
+}
 .bd_l_0{
     border-left: 0px;
 }
