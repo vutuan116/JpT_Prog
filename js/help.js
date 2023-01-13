@@ -61,11 +61,14 @@ function saveWordHard() {
     listWordbook.forEach(x => {
         let index = wordHardHistory.indexOf(x.Id.toString());
         if (index >= 0) {
+            x.IsWordHard = false;
             wordHardHistory.splice(index, 1);
         }
     });
     listWb.each(x => {
-        wordHardHistory.push(listWb[x].getAttribute("value"));
+        let wordId = listWb[x].getAttribute("value");
+        wordHardHistory.push(wordId);
+        listWordbook.filter(wb => wb.Id == wordId)[0].IsWordHard = true;
     });
     localStorage.setItem("wordHardHistory", JSON.stringify(wordHardHistory));
 }
@@ -108,42 +111,36 @@ Date.prototype.yyyyMMdd = function () {
     return [yy < 10 ? '0' + yy : yy, MM < 10 ? '0' + MM : MM, dd < 10 ? '0' + dd : dd].join('-');
 };
 
-$("#showMean").click(()=>{
-    if ($("#showMean").attr('class').includes("show")){
+$("#showMean").click(() => {
+    if ($("#showMean").attr('class').includes("show")) {
         $("#showMean").removeClass("show");
-        $(".mean").each(function(){
+        $(".mean").each(function () {
             $(this).addClass("hide");
         });
-    }else{
+    } else {
         $("#showMean").addClass("show");
-        $(".mean").each(function(){
+        $(".mean").each(function () {
             $(this).removeClass("hide");
         });
     }
 });
 
-$("#showWb").click(()=>{
-    if ($("#showWb").attr('class').includes("show")){
+$("#showWb").click(() => {
+    if ($("#showWb").attr('class').includes("show")) {
         $("#showWb").removeClass("show");
-        $(".wordbook").each(function(){
+        $(".wordbook").each(function () {
             $(this).addClass("hide");
         });
-    }else{
+    } else {
         $("#showWb").addClass("show");
-        $(".wordbook").each(function(){
+        $(".wordbook").each(function () {
             $(this).removeClass("hide");
         });
     }
 });
 
-function show(_this){
-    console.log(_this);
+function show(_this) {
     var html = _this.innerHTML;
-    if (html.includes("hide")){
-        html= html.replace("hide","hi_de");
-    }else{
-        html= html.replace("hi_de","hide");
-    }
-    
+    html = html.includes("hide") ? html.replace("hide", "hi_de") : html = html.replace("hi_de", "hide");
     $(_this).html(html);
 }

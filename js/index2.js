@@ -18,7 +18,7 @@ function viewListWordbook() {
             $(".th_col_index").removeClass("hide");
             $(".wb_btn.checkWb").removeClass("hide");
             $(".wb_btn.againCheckWb").addClass("hide");
-            $(".fa-eye").each(function(){
+            $(".fa-eye").each(function () {
                 $(this).addClass("hide");
             });
             break;
@@ -31,7 +31,7 @@ function viewListWordbook() {
             $(".wb_btn.againCheckWb").removeClass("hide");
             $(".th_col_hard").removeClass("hide");
             html = html.replaceAll('th_col_hard wordhard hide', 'th_col_hard wordhard');
-            $(".fa-eye").each(function(){
+            $(".fa-eye").each(function () {
                 $(this).removeClass("hide");
             });
     }
@@ -61,7 +61,7 @@ function againTestWb() {
 
     var listWbRepeat = [];
     listWbChecked.each(x => {
-        listWbRepeat.push(listWordbook[Number(listWbChecked[x].getAttribute("index"))-1]);
+        listWbRepeat.push(listWordbook[Number(listWbChecked[x].getAttribute("index")) - 1]);
     });
 
     listWordbook = listWbRepeat;
@@ -75,9 +75,9 @@ function againTestWb() {
 function genHtmlForWordBook(word, isShowHira, isShowMean, index) {
     let resultHtml = `<tr>`;
 
-    if (index){
-        resultHtml = resultHtml + 
-        `<td class="text-center">${index}</td>`;
+    if (index) {
+        resultHtml = resultHtml +
+            `<td class="text-center">${index}</td>`;
     }
 
     if (word.IsWordHard) {
@@ -125,4 +125,25 @@ function genHtmlForWordBook(word, isShowHira, isShowMean, index) {
             <i class="fas fa-repeat btn_repeat" onclick="this.classList.toggle('on')" index="${index}"></i>
         </td>`;
     return resultHtml;
+}
+
+function randomTestWb() {
+    saveWordHard();
+    var html = "";
+    var index = 1;
+
+    listWordbook = derangeArray(listWordbook);
+
+    listWordbook.forEach(x => {
+        html = html + genHtmlForWordBook(x, true, true);
+        index++;
+    });
+
+    $(".th_col_hard").removeClass("hide");
+    html = html.replaceAll('th_col_hard wordhard hide', 'th_col_hard wordhard');
+    $(".fa-eye").each(function () {
+        $(this).removeClass("hide");
+    });
+    $("#tbl_body_list_wordbook").html(html);
+    $(".btn_ontop")[0].click();
 }

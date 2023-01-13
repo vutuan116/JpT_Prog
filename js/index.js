@@ -32,11 +32,6 @@ $(document).ready(function () {
     $(".btn_wordhard").on('click', () => {
         this.toggleClass("on");
     });
-
-    // ==================== Test Start ====================
-    //$('#wb_lesson_4').attr('checked', 'checked');
-    //start();
-    // ==================== Test end ====================
 });
 
 function wbLessonChange(type) {
@@ -117,7 +112,7 @@ function viewListLesson() {
 function start() {
     listWordbook = [];
     let listLesson = $("input[type=checkbox]:checked");
-    $("btn_ontop").click();
+    $(".btn_ontop")[0].click();
     if (!listLesson || listLesson.length == 0) {
         alert("Hãy chọn ít nhất 1 bài học");
         return;
@@ -194,9 +189,8 @@ function start() {
         viewKanji();
     }
 
-
     $(".div_main").addClass("hide");
     $(".test_wb").removeClass("hide");
-
+    
     saveSetting();
 }
