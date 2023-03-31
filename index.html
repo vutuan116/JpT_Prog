@@ -15,65 +15,66 @@
 <body class="">
     <div id="top"></div>
     <div class="container">
-        <div class="col-lg-12">
+        <div class="col-12">
             <div class="text-center mt-2">
                 <h1 class="h4 title" style="font-size: 32px">JwT Home</h1>
             </div>
         </div>
         <div class="div_main menu">
             <div class="row justify-content-md-center p-3 pt-1">
-                <div class="col-lg-3 mt-2">
+                <div class="col-4 mt-2">
                     <div class="row">
-                        <div class="col-5 text-end">
-                            <h4>Level:</h4>
+                        <div class="col-auto px-1">
+                            <h4><i class="fas fa-graduation-cap"></i></h4>
                         </div>
-                        <div class="col-7">
-                            <select class="form-control" id="level_select"
+                        <div class="col-sm px-1">
+                            <select class="form-control" id="level_sel"
                                 onchange="viewListLesson(this.value)">
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 mt-2">
+                <div class="col-4 mt-2">
                     <div class="row">
-                        <div class="col-5 text-end">
-                            <h4>Type:</h4>
+                        <div class="col-auto px-1">
+                            <h4><i class="fas fa-binoculars"></i></h4>
                         </div>
-                        <div class="col-7">
-                            <select class="form-control" id="type_select">
-                                <option value="test">Test</option>
-                                <option value="view">View</option>
+                        <div class="col-sm px-1">
+                            <select class="form-control" id="view_type_sel">
+                                <option value="show-all">Show All</option>
+                                <option value="show-random">Show Random</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 mt-2">
+                <div class="col-4 mt-2">
                     <div class="row">
-                        <div class="col-5 text-end">
-                            <h4>WordType:</h4>
+                        <div class="col-auto px-1">
+                            <h4><i class="fas fa-font-case"></i></h4>
                         </div>
-                        <div class="col-7">
-                            <select class="form-control" id="wordtype_select">
-                                <option value="All" selected>All</option>
-                                <option value="OnLyHard">OnLy Hard</option>
+                        <div class="col-sm px-1">
+                            <select class="form-control" id="word_type_sel">
+                                <option value="all" selected>All</option>
+                                <option value="hard">OnLy Hard</option>
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row justify-content-md-center">
                 <div class="row justify-content-md-center m-0">
                     <div class="col-lg-8">
                         <div class="card">
                             <div class="card-header py-2">
-                                <select class="form-control text-primary" id="word_select">
+                                <select class="form-control text-primary" id="wb_kan_sel">
                                     <option value="wordbook">Wordbook</option>
                                     <option value="kanji">Kanji</option>
                                 </select>
                                 <h6 class="ls_selected"></h6>
                             </div>
                             <div class="card-body" style="padding: 0.5em">
-                                <div class="col div_index lesson_div">
+                                <div class="col height_1per3 lesson_div">
                                     <table class="table table-striped w-100">
                                         <tbody id="wordbook_lesson_div">
                                         </tbody>
@@ -91,34 +92,40 @@
             </div>
         </div>
 
+
+
+
         <div class="div_main test_wb">
             <div class="row justify-content-md-center p-1">
-                <table class="table table-bordered  table-striped" cellspacing="0" width="100%">
+                <table class="table table-bordered table-striped" cellspacing="0" width="100%" id="tbl_show_wordbook">
                     <thead class="bg-dark text-white">
                         <tr>
-                            <th class="td_1_20 text-center th_col_index hide">No</th>
-                            <th class="td_1_20 text-center th_col_hard hide"><i class="fas fa-star-half-alt"></i></th>
-                            <th class="th-sm td_7_20 text-center">
+                            <th class="td_1_20 text-center col_index">#</th>
+                            <th class="th-sm td_7_20 text-center" colspan="2">
                                 <ruby>
                                     Hira
                                     <rt>Kanji</rt>
                                 </ruby>
                                 <i class="fas fa-eye fl_right mt-2 show" id="showWb"></i>
                             </th>
-                            <th class="th-sm td_7_20 text-center">Meaning <i class="fas fa-eye fl_right mt-1 show" id="showMean"></i></th>
-                            <th class="td_1_20 th_col_repeat hide text-center"><i class="fa-solid fa-square-plus"></i>
+                            <th class="th-sm td_7_20 text-center">
+                                Meaning 
+                                <i class="fas fa-eye fl_right mt-1 show" id="showMean"></i>
+                            </th>
+                            <th class="td_1_20 th_col_repeat text-center">
+                                <i class="fas fa-chevron-square-up opacity-50"></i>
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="tbl_body_list_wordbook">
+                    <tbody>
                     </tbody>
                 </table>
                 <div class="col-lg-4 mb-4 text-center">
-                    <button type="button" class="btn wb_btn checkWb btn-primary btn-sm w-80 fw-bold"
+                    <button type="button" class="btn checkWb btn-primary btn-sm w-80 fw-bold"
                         onclick="checkWordbook()">Check Wordbook</button>
-                    <button type="button" class="btn wb_btn againCheckWb btn-primary btn-sm fw-bold w-80 hide"
+                    <button type="button" class="btn againCheckWb btn-primary btn-sm fw-bold w-80 hide"
                         onclick="againTestWb()">Continues</button>
-                    <button type="button" class="btn mt-2 wb_btn againCheckWb btn-primary btn-sm fw-bold w-80 hide"
+                    <button type="button" class="btn mt-2 againCheckWb btn-primary btn-sm fw-bold w-80 hide"
                         onclick="randomTestWb()">Mix</button>
                 </div>
             </div>
@@ -127,14 +134,16 @@
     <div id="bottom"></div>
     <a class="btn_ontop" href="#top"><i class="fas fa-chevron-square-up opacity-50"></i></a>
     <a class="btn_bottom" href="#bottom"><i class="fas fa-chevron-square-down opacity-50"></i></a>
+    <a class="btn_gohome" onclick="location.reload()"><i class="fas fa-home opacity-50"></i></a>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.easing.min.js"></script>
-    <script src="js/data/tuvung.js"></script>
-    <script src="js/data/kanji.js"></script>
-    <script src="js/index.js"></script>
-    <script src="js/index2.js"></script>
-    <script src="js/index_kj.js"></script>
-    <script src="js/help.js"></script>
+    <script src="js/data/tuvung_dev.js"></script>
+    <script src="js/data/kanji_dev.js"></script>
+
+    <script src="js/v2/common.js"></script>
+    <script src="js/v2/help.js"></script>
+    <script src="js/v2/index.js"></script>
+    <script src="js/v2/init.js"></script>
 </body>
 </html>
