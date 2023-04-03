@@ -16,8 +16,8 @@ $(document).ready(function () {
     viewListLesson();
     goHome();
 
-    $("#word_select").on('change', () => {
-        if ($("#word_select").val() == "wordbook") {
+    $("#wb_kan_sel").on('change', () => {
+        if ($("#wb_kan_sel").val() == "wordbook") {
             $("#wordbook_lesson_div").removeClass("hide");
             $("#kanji_lesson_div").addClass("hide");
         } else {

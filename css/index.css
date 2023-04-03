@@ -5,10 +5,12 @@ body{
     color: rgb(21, 12, 61);
 }
 
-table{
+.fz_20{
     font-size: 20px;
 }
-
+.test_wb td{
+    height: 60px;
+}
 @media only screen and (max-width: 992px) {
     .height_1per3 {
         height: 34vh !important;
@@ -60,7 +62,10 @@ p{
 .btn_wordhard.on:hover{
     color: #fdcf45;
 }
-
+.lb_no{
+    width: 21px!important;
+    text-align: end;
+}
 .btn_repeat.on{
     color: rgb(201, 3, 3);
 }
@@ -80,7 +85,9 @@ p{
     color: rgb(185, 122, 122);
     cursor: pointer;
 }
-
+.lineh-1{
+    line-height: 1.5rem;
+}
 .tbl-no-custom{
     color: black!important;
     font-size: 22px;
@@ -187,7 +194,7 @@ h1, h2, h3, h4, h5, h6{
     padding-right: 0.25rem;
 }
 .pr-0{
-    padding-right: 0rem;
+    padding-right: 0rem!important;
 }
 
 .px-1{

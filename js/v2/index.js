@@ -26,16 +26,12 @@ function start() {
     });
 
     if (wordType == "hard") {
-        listWbTemp = listWbTemp.filter(wb => wb.IsHard);
+        _listWordbook = _listWordbook.filter(wb => wb.IsHard);
     }
 
     if (!_listWordbook || _listWordbook.length == 0) {
         alert("Không có từ phù hợp");
         return;
-    }
-
-    if ($('#view_type_sel').val() != "show-all") {
-        _listWordbook = derangeArray(_listWordbook);
     }
 
     if ($("#wb_kan_sel").val() == "wordbook") {
@@ -52,43 +48,21 @@ function start() {
 
 function viewWordbook() {
     var html = "";
-    var index = 0;
+    var index = 1;
     var typeSelected = $('#view_type_sel').val();
     switch (typeSelected) {
-        case "show-all":
-            // _listWordbook.forEach(x => {
-            //     var isShowHira = getRandomInt(0, 100) % 2 == 0;
-            //     if (isShowHira) {
-            //         html = html + genHtmlForWordBook(index, x, true);
-            //     } else {
-            //         html = html + genHtmlForWordBook(index, x, false);
-            //     }
-            //     index++;
-            // });
-            // $(".th_col_index").removeClass("hide");
-            // $(".wb_btn.checkWb").removeClass("hide");
-            // $(".wb_btn.againCheckWb").addClass("hide");
-            // $(".fa-eye").each(function () {
-            //     $(this).addClass("hide");
-            // });
-
+        case "show-random":
+            _listWordbook.forEach(word => {
+                html += genHtmlForWordBook(index, word, true);
+                index++;
+            });
+            break;
+        default:
             _listWordbook.forEach(word => {
                 html += genHtmlForWordBook(index, word, false);
                 index++;
             });
             break;
-        default:
-            // _listWordbook.forEach(x => {
-            //     html += genHtmlForWordBook(x, true, true);
-            //     index++;
-            // });
-            // $(".wb_btn.checkWb").addClass("hide");
-            // $(".wb_btn.againCheckWb").removeClass("hide");
-            // $(".th_col_hard").removeClass("hide");
-            // html = html.replaceAll('th_col_hard wordhard hide', 'th_col_hard wordhard');
-            // $(".fa-eye").each(function () {
-            //     $(this).removeClass("hide");
-            // });
     }
 
     $("#tbl_show_wordbook > tbody").html(html);
@@ -97,29 +71,80 @@ function viewWordbook() {
 
 function genHtmlForWordBook(index, word, isShowRandom) {
     let resultHtml = `<tr>`;
-    resultHtml += `<td class="text-center">${index}</td>`;
     var isShowHira = isShowRandom ? getRandomInt(0, 100) % 2 == 0 : true;
     resultHtml +=
-        `<td class="td_wHard">
-            <i id="btn_isHard_${word.Id}" class="fas fa-star btn_wordhard ${word.IsHard ? "on" : ""}" value="${word.Id}" onclick="this.classList.toggle('on')"></i>
+        `<td class="td_wHard pr-0 bd_r_0">
+            <label class="lb_no">${index}</label>
+            <i value="${word.Id}" class="fas fa-star btn_wordhard ${word.IsHard ? "on" : ""}" value="${word.Id}" onclick="this.classList.toggle('on')"></i>
         </td>`;
 
     resultHtml +=
-        `<td onclick="toggleHideEle(this)">
-            <ruby class="wb wordbook ${isShowHira ? "hi_de" : "hide"}">${word.Hira}
+        `<td class="bd_l_0" onclick="toggleHideEle(this)">
+            <ruby class="wb td_wordbook ${isShowHira ? "hi_de" : "hide"}">${word.Hira}
                 <rt>${word.Kanji}</rt>
             </ruby>
         </td>`;
 
     resultHtml +=
-        `<td onclick="toggleHideEle(this)">
-            <span class="mean ${isShowRandom && isShowHira ? "hide" : "hi_de"}">${word.Mean}</span>
-        </td>`;
-
-    resultHtml +=
-        `<td class="th_col_repeat text-center">
-            <i class="fad fa-repeat-1 btn_repeat" onclick="this.classList.toggle('on')" index="${index}"></i>
+        `<td class="lineh-1" onclick="toggleHideEle(this)">
+            <span class="td_mean ${isShowRandom && isShowHira ? "hide" : "hi_de"}">${word.Mean}</span>
         </td>`;
 
     return resultHtml;
+}
+
+function mixWb() {
+    saveWordHard();
+    _listWordbook = derangeArray(_listWordbook);
+
+    if ($("#wb_kan_sel").val() == "wordbook") {
+        viewWordbook();
+    } else {
+        viewKanji();
+    }
+    $(".btn_ontop")[0].click();
+}
+
+function mixOnlyHardWb() {
+    var listHard = $(".btn_wordhard.on");
+    if (!listHard || listHard.length == 0) {
+        alert("Không có từ phù hợp");
+        return;
+    }
+    saveWordHard();
+    var listWbHard = [];
+    listHard.each(x => {
+        listWbHard.push(_listWordbook.filter(y => y.Id == Number(listHard[x].getAttribute("value")))[0]);
+    });
+
+    _listWordbook = derangeArray(listWbHard);
+
+    if ($("#wb_kan_sel").val() == "wordbook") {
+        viewWordbook();
+    } else {
+        viewKanji();
+    }
+    $(".btn_ontop")[0].click();
+}
+
+function saveAndBack() {
+    saveLessonHistory();
+    saveWordHard();
+    goHome();
+    viewListLesson();
+}
+
+function showAll(elementClassId) {
+    var colElement = $("."+elementClassId);
+    if (colElement[0].outerHTML.includes("hide")) {
+        colElement.each(x => {
+            $(colElement[x]).removeClass("hide");
+            $(colElement[x]).addClass("hi_de");
+        });
+    } else {
+        colElement.each(x => {
+            $(colElement[x]).removeClass("hi_de");
+            $(colElement[x]).addClass("hide");
+        });
+    }
 }

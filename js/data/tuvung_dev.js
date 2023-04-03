@@ -17,7 +17,7 @@ var tuVung =
 	},
 	{"Lesson":"Mina_10","Level":"N5","Data":
 		[
-		{"Type":"N","Id":11,"Hira":"います","Kanji":"","Mean":"có, ở (tồn tại, dùng cho người và động vật)"},
+		{"Type":"N","Id":15,"Hira":"います","Kanji":"","Mean":"có, ở (tồn tại, dùng cho người và động vật)"},
 		{"Type":"N","Id":12,"Hira":"あります","Kanji":"","Mean":"có (tồn tại, dùng cho đồ vật)"},
 		{"Type":"N","Id":13,"Hira":"いろいろ[な]","Kanji":"","Mean":"nhiều, đa dạng"},
 		{"Type":"V","Id":14,"Hira":"おとこのひと","Kanji":"男の人","Mean":"người đàn ông"},

@@ -55,8 +55,8 @@ function saveLessonHistory() {
 }
 
 function saveWordHard() {
-    let listWb = $(".btn_hard.on");
-    listWordbook.forEach(x => {
+    let listWb = $(".btn_wordhard.on");
+    _listWordbook.forEach(x => {
         let index = wordHardHistory.indexOf(x.Id.toString());
         if (index >= 0) {
             x.IsHard = false;
@@ -66,7 +66,7 @@ function saveWordHard() {
     listWb.each(x => {
         let wordId = listWb[x].getAttribute("value");
         wordHardHistory.push(wordId);
-        listWordbook.filter(wb => wb.Id == wordId)[0].IsHard = true;
+        _listWordbook.filter(wb => wb.Id == wordId)[0].IsHard = true;
     });
     localStorage.setItem("wordHardHistory", JSON.stringify(wordHardHistory));
 }
