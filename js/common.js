@@ -45,3 +45,9 @@ function wbLessonChange(type) {
 
     $(".ls_selected").html(listLs);
 }
+
+function goToHome(){
+    if (confirm("Back to Home?") == true) {
+        goHome();
+      }
+}
