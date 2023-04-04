@@ -1,30 +1,28 @@
 var menuSetting = {};
 var lessonHistory = [];
 var wordHardHistory = [];
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
-function setting() {
+function loadSetting() {
     menuSetting = JSON.parse(localStorage.getItem("menuSetting") ?? "{}");
+    if (menuSetting.Level) {
+        $("#level_sel").val(menuSetting.Level);
+    }
+    if (menuSetting.ViewType) {
+        $("#view_type_sel").val(menuSetting.ViewType);
+    }
+    if (menuSetting.WordType) {
+        $("#word_type_sel").val(menuSetting.WordType);
+    }
+    if (menuSetting.WordKan) {
+        $("#wb_kan_sel").val(menuSetting.WordKan);
+    } else {
+        $("#wb_kan_sel").val("wordbook");
+    }
+
     lessonHistory = JSON.parse(localStorage.getItem("lessonHistory") ?? "[]");
     wordHardHistory = JSON.parse(localStorage.getItem("wordHardHistory") ?? "[]");
 
-    if (menuSetting.Level) {
-        $("#level_select").val(menuSetting.Level);
-    }
-    if (menuSetting.Type) {
-        $("#type_select").val(menuSetting.Type);
-    }
-    if (menuSetting.WordType) {
-        $("#wordtype_select").val(menuSetting.WordType);
-    }
-    if (menuSetting.WordSelect) {
-        $("#word_select").val(menuSetting.WordSelect);
-    } else {
-        $("#word_select").val("wordbook");
-    }
-    if ($("#word_select").val() == "wordbook") {
+    if ($("#wb_kan_sel").val() == "wordbook") {
         $("#wordbook_lesson_div").removeClass("hide");
         $("#kanji_lesson_div").addClass("hide");
     } else {
@@ -34,10 +32,10 @@ function setting() {
 }
 
 function saveSetting() {
-    menuSetting.Level = $("#level_select").val();
-    menuSetting.Type = $("#type_select").val();
-    menuSetting.WordType = $("#wordtype_select").val();
-    menuSetting.WordSelect = $("#word_select").val();
+    menuSetting.Level = $("#level_sel").val();
+    menuSetting.ViewType = $("#view_type_sel").val();
+    menuSetting.WordType = $("#word_type_sel").val();
+    menuSetting.WordKan = $("#wb_kan_sel").val();
 
     localStorage.setItem("menuSetting", JSON.stringify(menuSetting));
 }
@@ -58,29 +56,19 @@ function saveLessonHistory() {
 
 function saveWordHard() {
     let listWb = $(".btn_wordhard.on");
-    listWordbook.forEach(x => {
+    _listWordbook.forEach(x => {
         let index = wordHardHistory.indexOf(x.Id.toString());
         if (index >= 0) {
-            x.IsWordHard = false;
+            x.IsHard = false;
             wordHardHistory.splice(index, 1);
         }
     });
     listWb.each(x => {
         let wordId = listWb[x].getAttribute("value");
         wordHardHistory.push(wordId);
-        listWordbook.filter(wb => wb.Id == wordId)[0].IsWordHard = true;
+        _listWordbook.filter(wb => wb.Id == wordId)[0].IsHard = true;
     });
     localStorage.setItem("wordHardHistory", JSON.stringify(wordHardHistory));
-}
-
-function derangeArray(listItem) {
-    let result = [];
-    while (listItem.length > 0) {
-        let index = getRandomInt(0, listItem.length - 1);
-        result.push(listItem[index]);
-        listItem.splice(index, 1);
-    }
-    return result;
 }
 
 function goHome() {
@@ -88,59 +76,43 @@ function goHome() {
     $(".menu").removeClass("hide");
 }
 
-function resetHideStatus() {
-    $(".th_col_index").addClass("hide");
-    $(".th_col_repeat").addClass("hide");
-    $(".th_col_hard").addClass("hide");
-    $(".th_col_hard").addClass("hide");
+function toggleHideEle(_this) {
+    var html = _this.innerHTML;
+    html = html.includes("hide") ?
+        html.replace("hide", "hi_de")
+        : html.replace("hi_de", "hide");
+    $(_this).html(html);
 }
 
-Date.prototype.hhmmss = function () {
-    var hh = this.getHours();
-    var mm = this.getMinutes();
-    var ss = this.getSeconds();
+function hideEle(valueId,typeId,isHide){
+    var ele = $("#"+valueId)[0];
+    if (typeId=="class"){
+        ele = $("."+valueId)[0];
+    }
+    if (!ele) return;
+    
+    if (isHide){
+        $(ele).addClass("hide");
+        $(ele).removeClass("hi_de");
+    }else{
+        $(ele).addClass("hi_de");
+        $(ele).removeClass("hide");
+    }
+}
 
-    return [hh < 10 ? '0' + hh : hh, mm < 10 ? '0' + mm : mm, ss < 10 ? '0' + ss : ss].join(':');
-};
-
-Date.prototype.yyyyMMdd = function () {
-    var yy = this.getFullYear();
-    var MM = this.getMonth() + 1;
-    var dd = this.getDate();
-
-    return [yy < 10 ? '0' + yy : yy, MM < 10 ? '0' + MM : MM, dd < 10 ? '0' + dd : dd].join('-');
-};
-
-$("#showMean").click(() => {
-    if ($("#showMean").attr('class').includes("show")) {
-        $("#showMean").removeClass("show");
-        $(".mean").each(function () {
-            $(this).addClass("hide");
-        });
-    } else {
-        $("#showMean").addClass("show");
-        $(".mean").each(function () {
-            $(this).removeClass("hide");
+function lessonChange(type) {
+    if (type == "wb") {
+        var listLesson = $(".wb_lesson[type=checkbox]:checked");
+    }
+    else {
+        var listLesson = $(".kj_lesson[type=checkbox]:checked");
+    }
+    var listLs = "";
+    if (listLesson && listLesson.length != 0) {
+        listLesson.each(x => {
+            listLs = listLs + (x == 0 ? '' : ', ') + listLesson[x].value;
         });
     }
-});
 
-$("#showWb").click(() => {
-    if ($("#showWb").attr('class').includes("show")) {
-        $("#showWb").removeClass("show");
-        $(".wordbook").each(function () {
-            $(this).addClass("hide");
-        });
-    } else {
-        $("#showWb").addClass("show");
-        $(".wordbook").each(function () {
-            $(this).removeClass("hide");
-        });
-    }
-});
-
-function show(_this) {
-    var html = _this.innerHTML;
-    html = html.includes("hide") ? html.replace("hide", "hi_de") : html = html.replace("hi_de", "hide");
-    $(_this).html(html);
+    $(".ls_selected").html(listLs);
 }

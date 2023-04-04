@@ -28,3 +28,20 @@ Date.prototype.yyyyMMdd = function () {
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function wbLessonChange(type) {
+    if (type == "wordbook") {
+        var listLesson = $(".wb_lesson[type=checkbox]:checked");
+    }
+    else {
+        var listLesson = $(".kj_lesson[type=checkbox]:checked");
+    }
+    var listLs = "";
+    if (listLesson && listLesson.length != 0) {
+        listLesson.each(x => {
+            listLs = listLs + (x == 0 ? '' : ', ') + listLesson[x].value;
+        });
+    }
+
+    $(".ls_selected").html(listLs);
+}
