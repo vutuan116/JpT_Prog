@@ -280,8 +280,8 @@ namespace JpT.DAO
         {
             if (entity.Label == null || entity.Grammar == null || entity.Example == null) { return; }
 
-            string speChar = "ー・（）＆．＋？";
-            string norChar = "-/()&.+?";
+            string speChar = "ー・（）＆．＋？＝";
+            string norChar = "-/()&.+?=";
             bool needFormat = false;
 
             for (int i = 0; i < speChar.Length; i++)
