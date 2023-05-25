@@ -13,6 +13,7 @@ namespace JpT.DAO
         private ExcelUtils _excel = new ExcelUtils(Constant.FILE_DATA);
         private List<WordEntity> _wordOriginal = new List<WordEntity>();
         private List<LessonModel> _lessonOriginal = new List<LessonModel>();
+        private List<GrammarEntity> _grammarOriginal = new List<GrammarEntity>();
         private ConfigEntity _config = new ConfigEntity();
 
         public WordDAO()
@@ -44,6 +45,11 @@ namespace JpT.DAO
                 result.Add(lesson);
             });
             return result;
+        }
+
+        public List<GrammarEntity> GetListGrammarByLesson(LessonModel lesson)
+        {
+            return _grammarOriginal.Where(x => x.Lesson.Equals(lesson.LessonName)).ToList();
         }
 
         public LevelEnum GetLevelConfig()
@@ -96,7 +102,7 @@ namespace JpT.DAO
 
         public void UpdateLessonHistory(List<LessonHistoryEntity> listLessonHistoryEntity)
         {
-            _excel.ws_GetBySheetIndex(1);
+            _excel.ws_GetBySheetIndex(2);
 
             foreach (LessonHistoryEntity entity in listLessonHistoryEntity)
             {
@@ -120,7 +126,7 @@ namespace JpT.DAO
             }
             _excel.Workbook_Save(Constant.FILE_DATA);
         }
-        
+
         public void UpdateWordType(List<WordEntity> listDataEntity)
         {
             _excel.ws_GetBySheetIndex(0);
@@ -141,7 +147,7 @@ namespace JpT.DAO
 
         public void SaveLevelConfig(LevelEnum level)
         {
-            _excel.ws_GetBySheetIndex(1);
+            _excel.ws_GetBySheetIndex(2);
             _excel.cell_WriteByIndex(3, Constant.CONFIG_COL_LEVEL, (int)level);
             _excel.Workbook_Save(Constant.FILE_DATA);
         }
@@ -157,7 +163,7 @@ namespace JpT.DAO
             try
             {
                 _config.LessonHistoryList = new List<LessonHistoryEntity>();
-                _excel.ws_GetBySheetIndex(1);
+                _excel.ws_GetBySheetIndex(2);
 
                 int countRows = _excel.ws_GetCountRow();
                 for (int i = 3; i <= countRows; i++)
@@ -224,6 +230,30 @@ namespace JpT.DAO
                     _wordOriginal.Add(entity);
                 }
 
+
+                _excel.ws_GetBySheetIndex(1);
+                countRows = _excel.ws_GetCountRow();
+                for (int i = 2; i <= countRows; i++)
+                {
+                    GrammarEntity entity = new GrammarEntity();
+                    entity.Id = "GM_" + i;
+                    entity.Level = _excel.cell_GetValueByCell(i, 2);
+                    entity.Lesson = _excel.cell_GetValueByCell(i, 3);
+
+                    entity.Label = _excel.cell_GetValueByCell(i, 4);
+                    entity.Grammar = _excel.cell_GetValueByCell(i, 5);
+                    entity.Mean = _excel.cell_GetValueByCell(i, 6);
+                    entity.Example = _excel.cell_GetValueByCell(i, 7);
+
+                    FormatGrammar(i, entity);
+
+                    if (entity.IsEmpty())
+                    {
+                        continue;
+                    }
+                    _grammarOriginal.Add(entity);
+                }
+
                 _wordOriginal.Select(x => x.Lesson).Distinct().ToList().ForEach(x =>
                 {
                     WordEntity wordFirst = _wordOriginal.FirstOrDefault(wf => wf.Lesson.Equals(x));
@@ -231,13 +261,55 @@ namespace JpT.DAO
                     _lessonOriginal.Add(ls);
                 });
 
+                _grammarOriginal.Select(x => x.Lesson).Distinct().ToList().ForEach(x =>
+                {
+                    GrammarEntity grammarFirst = _grammarOriginal.FirstOrDefault(wf => wf.Lesson.Equals(x));
+                    LessonModel ls = new LessonModel() { LessonName = grammarFirst.Lesson, Level = CommonUtils.ConvertLevelEnum(grammarFirst.Level) };
+                    _lessonOriginal.Add(ls);
+                });
+
                 return true;
             }
-            catch
+            catch (Exception e)
             {
                 return false;
             }
         }
 
+        private void FormatGrammar(int row, GrammarEntity entity)
+        {
+            if (entity.Label == null || entity.Grammar == null || entity.Example == null) { return; }
+
+            string speChar = "ー・（）＆．＋？";
+            string norChar = "-/()&.+?";
+            bool needFormat = false;
+
+            for (int i = 0; i < speChar.Length; i++)
+            {
+                if (entity.Label.Contains(speChar[i]))
+                {
+                    entity.Label= entity.Label.Replace(speChar[i], norChar[i]);
+                    needFormat = true;
+                }
+                if (entity.Grammar.Contains(speChar[i]))
+                {
+                    entity.Grammar = entity.Grammar.Replace(speChar[i], norChar[i]);
+                    needFormat = true;
+                }
+                if (entity.Example.Contains(speChar[i]))
+                {
+                    entity.Example = entity.Example.Replace(speChar[i], norChar[i]);
+                    needFormat = true;
+                }
+            }
+
+            if (needFormat)
+            {
+                _excel.cell_WriteByIndex(row, 4, entity.Label);
+                _excel.cell_WriteByIndex(row, 5, entity.Grammar);
+                _excel.cell_WriteByIndex(row, 7, entity.Example);
+            }
+
+        }
     }
 }

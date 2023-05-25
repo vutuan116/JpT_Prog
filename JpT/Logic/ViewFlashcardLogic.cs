@@ -57,6 +57,18 @@ namespace JpT.Logic
             return result;
         }
 
+        public List<GrammarEntity> GetListGrammarByLesson(List<LessonModel> listLesson)
+        {
+            List<GrammarEntity> result = new List<GrammarEntity>();
+
+            listLesson.ForEach(x =>
+            {
+                result.AddRange(dAO.GetListGrammarByLesson(x));
+            });
+
+            return result;
+        }
+
         private WordModel ConvertWordEntityToWordModel(WordEntity entity, bool isRepeat = true)
         {
             WordModel model = CommonUtils.MappingData<WordModel>(entity);

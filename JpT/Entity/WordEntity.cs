@@ -1,4 +1,5 @@
-﻿using JpT.Model;
+﻿using JpT.Logic;
+using JpT.Model;
 using System;
 
 namespace JpT.Entity
@@ -65,5 +66,23 @@ namespace JpT.Entity
                 WordType = this.WordType
             };
         }
+    }
+
+
+    public class GrammarEntity
+    {
+        public string Id { get; set; }
+        public string Level { get; set; }
+        public string Lesson { get; set; }
+        public string Label { get; set; }
+        public string Grammar { get; set; }
+        public string Mean { get; set; }
+        public string Example { get; set; }
+
+        public bool IsEmpty()
+        {
+            return string.IsNullOrEmpty(Lesson + Label + Grammar + Mean);
+        }
+
     }
 }

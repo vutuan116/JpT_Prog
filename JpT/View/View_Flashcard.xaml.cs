@@ -1,4 +1,5 @@
-﻿using JpT.Logic;
+﻿using JpT.Entity;
+using JpT.Logic;
 using JpT.Model;
 using JpT.Utilities;
 using System;
@@ -429,13 +430,14 @@ namespace JpT
             JavaScriptSerializer jsSer = new JavaScriptSerializer();
             List<TuVungJson> tuVungData = new List<TuVungJson>();
             List<KanjiJson> kanjiData = new List<KanjiJson>();
+            List<GrammarJson> grammarData = new List<GrammarJson>();
 
             Enum.GetValues(typeof(LevelEnum)).Cast<LevelEnum>().ToList().ForEach(level =>
             {
                 List<LessonModel> lessonList = _logic.GetListLesson(level);
                 lessonList.ForEach(lesson =>
                 {
-                    if (lesson.Type.Equals("TV"))
+                    if (lesson.Type != null && lesson.Type.Equals("TV"))
                     {
                         TuVungJson tuVung = new TuVungJson() { Lesson = lesson.LessonName, Level = lesson.Level.ToString(), Data = new List<TuVungItem>() };
                         List<WordModel> wordList = _logic.GetListWordByLesson(new List<LessonModel>() { lesson }, StartModeEnum.ViewListWord, false);
@@ -445,7 +447,7 @@ namespace JpT
                         });
                         tuVungData.Add(tuVung);
                     }
-                    else
+                    else if (lesson.Type != null && lesson.Type.Equals("KJ"))
                     {
                         KanjiJson kanji = new KanjiJson() { Lesson = lesson.LessonName, Level = lesson.Level.ToString(), Data = new List<KanjiItem>() };
                         List<WordModel> wordList = _logic.GetListWordByLesson(new List<LessonModel>() { lesson }, StartModeEnum.ViewListWord, false);
@@ -455,15 +457,32 @@ namespace JpT
                         });
                         kanjiData.Add(kanji);
                     }
+                    else
+                    {
+                        GrammarJson grammar = new GrammarJson() { Lesson = lesson.LessonName, Level = lesson.Level.ToString(), Data = new List<GrammarItem>() };
+                        List<GrammarEntity> grammarList = _logic.GetListGrammarByLesson(new List<LessonModel>() { lesson });
+                        grammarList.ForEach(gm =>
+                        {
+                            grammar.Data.Add(new GrammarItem() { Id = gm.Id, Label = gm.Label, Grammar = gm.Grammar, Mean = gm.Mean, Example = gm.Example });
+                        });
+                        grammarData.Add(grammar);
+                    }
                 });
+
             });
+
             string tuVungText = "var tuVung = " + Environment.NewLine + jsSer.Serialize(tuVungData);
             string kanjiText = "var kanji = " + Environment.NewLine + jsSer.Serialize(kanjiData);
+            string grammarText = "var grammar = " + Environment.NewLine + jsSer.Serialize(grammarData);
 
-            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "tuvung.js"), tuVungText);
-            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "kanji.js"), kanjiText);
+            string pathTV = Path.Combine(@"D:\Github\JpT\js\data", "tuvung.js");
+            File.WriteAllText(pathTV, tuVungText);
+            string pathKJ = Path.Combine(@"D:\Github\JpT\js\data", "kanji.js");
+            File.WriteAllText(pathKJ, kanjiText);
+            string pathGM = Path.Combine(@"D:\Github\JpT\js\data", "grammar.js");
+            File.WriteAllText(pathGM, grammarText);
 
-            MessageBox.Show("Done!");
+            MessageBox.Show("Done!" + Environment.NewLine + pathTV + Environment.NewLine + pathKJ + Environment.NewLine + pathGM);
 
             Application.Current.Shutdown();
         }
@@ -499,5 +518,21 @@ namespace JpT
         public string Kanji { get; set; }
         public string CnVi { get; set; }
         public string Mean { get; set; }
+    }
+
+    public class GrammarJson
+    {
+        public string Lesson { get; set; }
+        public string Level { get; set; }
+        public List<GrammarItem> Data { get; set; }
+
+    }
+    public class GrammarItem
+    {
+        public string Id { get; set; }
+        public string Label { get; set; }
+        public string Grammar { get; set; }
+        public string Mean { get; set; }
+        public string Example { get; set; }
     }
 }
