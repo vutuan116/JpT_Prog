@@ -435,6 +435,7 @@ namespace JpT
             Enum.GetValues(typeof(LevelEnum)).Cast<LevelEnum>().ToList().ForEach(level =>
             {
                 List<LessonModel> lessonList = _logic.GetListLesson(level);
+                lessonList.Sort((x, y) => { return x.LessonName.CompareTo(y.LessonName); });
                 lessonList.ForEach(lesson =>
                 {
                     if (lesson.Type != null && lesson.Type.Equals("TV"))
