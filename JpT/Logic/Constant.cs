@@ -10,7 +10,7 @@ namespace JpT.Logic
     public class Constant
     {
         // Common
-        public static readonly string FILE_DATA = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "Data", "Data.xlsx");
+        public static readonly string FILE_DATA = Path.Combine(@"D:\Github\JpT_Prog\Data.xlsx");
         public static readonly string DATETIME_FORMAT = "yyyy-MM-dd";
         public static readonly int MAX_COUNT_WORD_REMIND = 50;
 

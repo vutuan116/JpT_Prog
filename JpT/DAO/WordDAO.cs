@@ -223,7 +223,7 @@ namespace JpT.DAO
                     entity.Lock = _excel.cell_GetValueByCell(i, Constant.DATA_COL_LOCK);
                     entity.LastLearn = _excel.cell_GetValueByCell(i, Constant.DATA_COL_LAST_LEARN);
                     entity.WordType = _excel.cell_GetValueByCell(i, Constant.DATA_COL_WORD_TYPE);
-                    if (entity.IsEmpty())
+                    if (entity.IsEmpty() || !string.IsNullOrEmpty(entity.Lock))
                     {
                         continue;
                     }
