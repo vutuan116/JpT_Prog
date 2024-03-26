@@ -444,7 +444,7 @@ namespace JpT
                         List<WordModel> wordList = _logic.GetListWordByLesson(new List<LessonModel>() { lesson }, StartModeEnum.ViewListWord, false);
                         wordList.ForEach(word =>
                         {
-                            tuVung.Data.Add(new TuVungItem() { Id = word.Id, Type = word.WordType, Hira = word.Hiragana, Kanji = word.Kanji, Mean = word.Mean });
+                            tuVung.Data.Add(new TuVungItem() { Id = word.Id, Type = word.WordType, Hira = word.Hiragana, Kanji = word.Kanji, Mean = word.Mean, CnVi = word.CnVi });
                         });
                         tuVungData.Add(tuVung);
                     }
@@ -502,6 +502,7 @@ namespace JpT
         public string Type { get; set; }
         public string Hira { get; set; }
         public string Kanji { get; set; }
+        public string CnVi { get; set; }
         public string Mean { get; set; }
     }
 
